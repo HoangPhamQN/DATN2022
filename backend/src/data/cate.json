@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Vật tư tiêu hao dùng 1 lần",
+        "slug": "vat-tu-tieu-hao-dung-1-lan",
+        "is_deleted": false
+    },
+    {
+        "name": "Dụng cụ y tế",
+        "slug": "dung-cu-y-te",
+        "is_deleted": false
+    },
+    {
+        "name": "Hóa chất, sinh phẩm xét nghiệm",
+        "slug": "hoa-chat-sinh-pham-xet-nghiem",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc điều trị bệnh",
+        "slug": "thuoc-dieu-tri-benh",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc phòng bệnh",
+        "slug": "thuoc-phong-benh",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc hổ trợ điều trị",
+        "slug": "thuoc-ho-tro-dieu-tri",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc bổ",
+        "slug": "thuoc-bo",
+        "is_deleted": false
+    }
+]

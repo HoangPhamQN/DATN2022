@@ -1,0 +1,1 @@
+module.exports = ['cái', 'tá', 'thùng']

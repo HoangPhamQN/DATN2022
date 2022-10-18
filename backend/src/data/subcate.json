@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Vật tư tiêu hao nhựa, cao su",
+        "slug": "vat-tu-tieu-hao-nhua-cao-su",
+        "parent": "634edd45dc378e9fcbcefb20",
+        "is_deleted": false
+    },
+    {
+        "name": "Vật tư tiêu hao kim loại",
+        "slug": "vat-tu-tieu-hao-kim-loai",
+        "parent": "634edd45dc378e9fcbcefb20",
+        "is_deleted": false
+    },
+    {
+        "name": "Vật tư tiêu hao giấy",
+        "slug": "vat-tu-tieu-hao-giay",
+        "parent": "634edd45dc378e9fcbcefb20",
+        "is_deleted": false
+    },
+    {
+        "name": "Vật tư tiêu hao X quang",
+        "slug": "vat-tu-tieu-hao-x-quang",
+        "parent": "634edd45dc378e9fcbcefb20",
+        "is_deleted": false
+    },
+    {
+        "name": "Dụng cụ thăm khám",
+        "slug": "dung-cu-tham-kham",
+        "parent": "634edd45dc378e9fcbcefb21",
+        "is_deleted": false
+    },
+    {
+        "name": "Dụng cụ phẩu thuật",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb21",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc điều trị tiểu đường",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb23",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc điều trị viêm gan B",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb23",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc tim mạch",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb23",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc điều trị huyết áp",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb23",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc điều trị bệnh da liễu",
+        "slug": "dung-cu-phau-thuat",
+        "parent": "634edd45dc378e9fcbcefb23",
+        "is_deleted": false
+    }
+]
