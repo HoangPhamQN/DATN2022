@@ -1,0 +1,1 @@
+module.exports.MerchaindiseService = require("./merchaindise.service");

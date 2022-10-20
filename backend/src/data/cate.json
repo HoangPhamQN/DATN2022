@@ -25,11 +25,6 @@
         "is_deleted": false
     },
     {
-        "name": "Thuốc hổ trợ điều trị",
-        "slug": "thuoc-ho-tro-dieu-tri",
-        "is_deleted": false
-    },
-    {
         "name": "Thuốc bổ",
         "slug": "thuoc-bo",
         "is_deleted": false

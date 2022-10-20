@@ -5,10 +5,10 @@ const port = process.env.PORT || 4000;
 const connectDatabase = require('./configs/database.config')
 connectDatabase.connect()
 
+const routes = require("./routes");
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
 
-app.listen(3000, () => console.log(`server is running in port ${port}`));
+app.use("/", routes);
+
+app.listen(port, () => console.log(`server is running in port ${port}`));

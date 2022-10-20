@@ -28,16 +28,15 @@ const userSchema = mongoose.Schema({
         ref: "Role",
         required: [true, "User must have a role!"],
     },
-    address: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Category",
-        required: [true, "User must have Address!"],
-    },
     isEnterpriseAcc: {
         type: Boolean,
         default: false,
     },
     isBlocked: {
+        type: Boolean,
+        default: false,
+    },
+    isDeleted: {
         type: Boolean,
         default: false,
     },

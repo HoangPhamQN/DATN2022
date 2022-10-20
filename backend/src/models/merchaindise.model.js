@@ -48,7 +48,7 @@ const merchaindiseSchema = mongoose.Schema({
         ref: "User",
         required: [true, "Merchaindise must belong to owner!"],
     },
-    subCategory: {
+    category: {
         type: mongoose.Schema.ObjectId,
         ref: "SubCategory",
         required: [true, "Merchaindise must belong to subcategory!"],

@@ -18,12 +18,6 @@
         "is_deleted": false
     },
     {
-        "name": "Vật tư tiêu hao X quang",
-        "slug": "vat-tu-tieu-hao-x-quang",
-        "parent": "634edd45dc378e9fcbcefb20",
-        "is_deleted": false
-    },
-    {
         "name": "Dụng cụ thăm khám",
         "slug": "dung-cu-tham-kham",
         "parent": "634edd45dc378e9fcbcefb21",
@@ -36,33 +30,86 @@
         "is_deleted": false
     },
     {
+        "name": "Hóa chất đặc dùng với thiết bị",
+        "slug": "hoa-chat-dac-dung-voi-thiet-bi",
+        "parent": "634edd45dc378e9fcbcefb22",
+        "is_deleted": false
+    },
+    {
+        "name": "Hóa chất thông thường",
+        "slug": "hoa-chat-thong-thuong",
+        "parent": "634edd45dc378e9fcbcefb22",
+        "is_deleted": false
+    },
+    {
+        "name": "Sinh phẩm xét nghiệm",
+        "slug": "sinh-pham-xet-nghiem",
+        "parent": "634edd45dc378e9fcbcefb22",
+        "is_deleted": false
+    },
+    {
         "name": "Thuốc điều trị tiểu đường",
-        "slug": "dung-cu-phau-thuat",
+        "slug": "thuoc-dieu-tri-tieu-duong",
         "parent": "634edd45dc378e9fcbcefb23",
         "is_deleted": false
     },
     {
         "name": "Thuốc điều trị viêm gan B",
-        "slug": "dung-cu-phau-thuat",
+        "slug": "thuoc-dieu-tri-viem-gan-b",
         "parent": "634edd45dc378e9fcbcefb23",
         "is_deleted": false
     },
     {
         "name": "Thuốc tim mạch",
-        "slug": "dung-cu-phau-thuat",
+        "slug": "thuoc-tim-mach",
         "parent": "634edd45dc378e9fcbcefb23",
         "is_deleted": false
     },
     {
         "name": "Thuốc điều trị huyết áp",
-        "slug": "dung-cu-phau-thuat",
+        "slug": "thuoc-dieu-tri-huyet-ap",
         "parent": "634edd45dc378e9fcbcefb23",
         "is_deleted": false
     },
     {
-        "name": "Thuốc điều trị bệnh da liễu",
-        "slug": "dung-cu-phau-thuat",
-        "parent": "634edd45dc378e9fcbcefb23",
+        "name": "Thuốc phòng chống ung thư",
+        "slug": "thuoc-phong-chong-ung-thu",
+        "parent": "634edd45dc378e9fcbcefb24",
+        "is_deleted": false
+    },
+    {
+        "name": "Vắc xin",
+        "slug": "vac-xin-phong-benh",
+        "parent": "634edd45dc378e9fcbcefb24",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc bổ mắt",
+        "slug": "thuoc-bo-mat",
+        "parent": "634edd45dc378e9fcbcefb26",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc bổ não",
+        "slug": "thuoc-bo-nao",
+        "parent": "634edd45dc378e9fcbcefb26",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc bổ gan",
+        "slug": "thuoc-bo-gan",
+        "parent": "634edd45dc378e9fcbcefb26",
+        "is_deleted": false
+    },
+    {
+        "name": "Thuốc bổ tổng hợp",
+        "slug": "thuoc-bo-tong-hop",
+        "parent": "634edd45dc378e9fcbcefb26",
+        "is_deleted": false
+    },
+    {
+        "name": "Khác",
+        "slug": "khac",
         "is_deleted": false
     }
 ]

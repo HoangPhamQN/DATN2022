@@ -1,0 +1,1 @@
+module.exports.MerchaindiseController = require("./merchaindise.controller")

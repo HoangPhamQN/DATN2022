@@ -1,0 +1,24 @@
+[
+    {
+        "givenName": "Hoàng",
+        "familyName": "Phạm H",
+        "email": "ph850305@gmail.com",
+        "photoUrl": "sample-photo-url-of-hoang",
+        "phoneNumber": "+84705213385",
+        "role": "6350b3325bc8d1ddf91786cb",
+        "isEnterpriseAcc": false,
+        "isBlocked": false,
+        "isDeleted": false
+    },
+    {
+        "givenName": "Hoang",
+        "familyName": "Pham",
+        "email": "hoangphh1608@gmail.com",
+        "photoUrl": "sample-photo-url-of-hoang-2",
+        "phoneNumber": "+8479736044",
+        "role": "6350b3325bc8d1ddf91786cc",
+        "isEnterpriseAcc": true,
+        "isBlocked": false,
+        "isDeleted": false
+    }
+]

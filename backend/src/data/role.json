@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Buyer",
+        "slug": "buyer"
+    },
+    {
+        "name": "Seller",
+        "slug": "seller"
+    },
+    {
+        "name": "Admin",
+        "slug": "admin"
+    }
+]

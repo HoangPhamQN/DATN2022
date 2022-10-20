@@ -10,6 +10,15 @@ const CategorySchema = mongoose.Schema({
     slug: {
         type: String,
         slug: "name",
+        unique: true
+    },
+    parent: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Category",
+    },
+    tree_id: {
+        type: Number,
+        required: true
     },
     isDeleted: {
         type: Boolean,

@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 // const Tour = require('./../../models/tourModel');
 // const Review = require('./../../models/reviewModel');
 // const User = require('./../../models/userModel');
-const { Category } = require("../models");
+const { Category, User, Role, Merchaindise } = require("../models");
 
 dotenv.config();
 async function connect() {
@@ -18,16 +18,19 @@ async function connect() {
 
 connect()
 // READ JSON FILE
-const categorys = JSON.parse(fs.readFileSync('src/data/cate.json', 'utf-8'));
-// const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
-// const reviews = JSON.parse(
-//   fs.readFileSync(`${__dirname}/reviews.json`, 'utf-8')
-// );
+// const categorys = JSON.parse(fs.readFileSync('src/data/subcate.json', 'utf-8'));
+// const roles = JSON.parse(fs.readFileSync('src/data/role.json', 'utf-8'));
+// const users = JSON.parse(fs.readFileSync('src/data/user.json', 'utf-8'));
+const merchains = JSON.parse(fs.readFileSync('src/data/merchaindise.json', 'utf-8'));
+
 
 // IMPORT DATA INTO DB
 const importData = async () => {
     try {
-        await Category.create(categorys);
+        // await Category.create(categorys);
+        // await Role.create(roles);
+        // await User.create(users);
+        await Merchaindise.create(merchains);
         console.log('Data successfully loaded!');
     } catch (err) {
         console.log(err);
@@ -39,7 +42,8 @@ const importData = async () => {
 
 const deleteData = async () => {
     try {
-        await Category.deleteMany();
+        // await Category.deleteMany();
+        await Role.deleteMany();
         console.log('Data successfully deleted!');
     } catch (err) {
         console.log(err);
