@@ -13,8 +13,9 @@ const CategorySchema = mongoose.Schema({
         unique: true
     },
     parent: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Category",
+        // type: mongoose.Schema.ObjectId,
+        // ref: "Category",
+        type: String,
     },
     tree_id: {
         type: Number,

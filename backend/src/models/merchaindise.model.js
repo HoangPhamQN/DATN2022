@@ -25,6 +25,13 @@ const merchaindiseSchema = mongoose.Schema({
         maxlength: 500,
         trim: true,
     },
+    images: [
+        {
+            type: String,
+            required: false,
+            index: true,
+        },
+    ],
     unitPrice: {
         type: Number,
         required: true,
@@ -37,7 +44,7 @@ const merchaindiseSchema = mongoose.Schema({
     },
     soldQuantity: {
         type: Number,
-        required: true,
+        default: 0
     },
     unit: {
         type: String,
