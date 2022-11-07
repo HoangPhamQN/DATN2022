@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
+    googleId: {
+        type: String,
+        unique: true
+    },
     givenName: {
         type: String,
         required: [true, "Please provide your given name!"],

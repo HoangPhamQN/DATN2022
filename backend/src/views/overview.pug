@@ -1,0 +1,31 @@
+extends base
+
+block content
+  main.main
+    .card-container
+    
+      each merchaindise in merchaindises
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`/imgs/merchaindise/${merchaindise.imageAvatar}`, alt=`${merchaindise.name}`)
+            //- h3.heading-tertirary
+            //-   span= merchaindise.name
+          .card__name
+            h3= merchaindise.name
+          .card__details
+            h4.card__sub-heading= 'Mã đăng kí'
+            p.card__text= merchaindise.registrationCode
+            .card__detail__wrapper
+                .card__data
+                    span= `Mô tả: ${merchaindise.description}`
+                .card__data
+                    span= `Đơn giá: ${merchaindise.unitPrice}`
+                .card__data
+                    span= `Số lượng đã bán: ${merchaindise.soldQuantity}`
+                .card__data
+                    pan= `Đơn vị tính: ${merchaindise.unit}`
+
+          .card__footer
+            a.btn.btn--green.btn--small(href=`/tour/${merchaindise.slug}`) Chi tiết
