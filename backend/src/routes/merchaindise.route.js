@@ -6,7 +6,7 @@ const upload = require('../middlewares/upload');
 const router = express.Router();
 
 
-router.route("/tat-ca-mat-hang").get(AuthController.protect, AuthController.restrictTo('buyer'), MerchaindiseController.getAllMerchaindise);
+router.route("/tat-ca-mat-hang").get(AuthController.protect, AuthController.restrictTo('Buyer'), MerchaindiseController.getAllMerchaindise);
 router.route("/vat-tu-y-te").get(MerchaindiseController.getMedicalSupplies);
 router.route("/chi-tiet/:id").get(MerchaindiseController.getDetail);
 router.route("/delete/:id").delete(MerchaindiseController.deleteMerchaindise);

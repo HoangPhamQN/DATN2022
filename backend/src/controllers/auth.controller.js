@@ -21,17 +21,20 @@ const createAndSendToken = (user, statusCode, res) => {
         httpOnly: true
     };
     res.cookie('jwt', token, cookieOption);
-    console.log(token)
-    // remove password from the output
-    //console.log(statusCode);
-    user.password = undefined;
-    res.status(statusCode).json({
-        status: 'success',
-        token,
-        data: {
-            user: user
-        }
-    });
+    // console.log(token)
+    // user.password = undefined;
+    // res.status(statusCode).json({
+    //     status: 'success',
+    //     token,
+    //     data: {
+    //         user: user
+    //     }
+    // });
+    res.send('<script>alert("Login successfully!"); window.location.href = "/merchaindise/vat-tu-y-te"; </script>');
+    // alert('Login successfully!');
+    // window.setTimeout(() => {
+    //     location.assign('/');
+    // }, 1500);
 };
 
 const signup = catchAsync(async (req, res, next) => {
@@ -48,7 +51,7 @@ const signup = catchAsync(async (req, res, next) => {
 
 const login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
-
+    console.log(email, password)
     if (!email || !password) {
         return next(new AppError('Please provide email and password', 400));
     }
@@ -115,36 +118,36 @@ const protect = catchAsync(async (req, res, next) => {
     next();
 });
 
-// exports.isLoggedIn = async (req, res, next) => {
-//     // get the token and check if it there
-//     if (req.cookies.jwt) {
-//         try {
-//             // 1) verify token
-//             const decoded = await promisify(jwt.verify)(
-//                 req.cookies.jwt,
-//                 process.env.JWT_SECRET
-//             );
+const isLoggedIn = async (req, res, next) => {
+    // get the token and check if it there
+    if (req.cookies.jwt) {
+        try {
+            // 1) verify token
+            const decoded = await promisify(jwt.verify)(
+                req.cookies.jwt,
+                process.env.JWT_SECRET
+            );
 
-//             // 2) Check if user still exists
-//             const currentUser = await User.findById(decoded.id);
-//             if (!currentUser) {
-//                 return next();
-//             }
+            // 2) Check if user still exists
+            const currentUser = await User.findById(decoded.id);
+            if (!currentUser) {
+                return next();
+            }
 
-//             // 3) Check if user changed password after the token was issued
-//             if (currentUser.changedPasswordAfter(decoded.iat)) {
-//                 return next();
-//             }
+            // 3) Check if user changed password after the token was issued
+            if (currentUser.changedPasswordAfter(decoded.iat)) {
+                return next();
+            }
 
-//             // THERE IS A LOGGED IN USER
-//             res.locals.user = currentUser;
-//             return next();
-//         } catch (err) {
-//             return next();
-//         }
-//     }
-//     next();
-// };
+            // THERE IS A LOGGED IN USER
+            res.locals.user = currentUser;
+            return next();
+        } catch (err) {
+            return next();
+        }
+    }
+    next();
+};
 
 const restrictTo = (...roles) => {
     return async (req, res, next) => {
@@ -248,5 +251,6 @@ module.exports = {
     login,
     protect,
     restrictTo,
-    logout
+    logout,
+    isLoggedIn
 }

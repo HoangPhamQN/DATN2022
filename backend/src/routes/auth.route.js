@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require('passport')
 require('../configs/passport')
 
-const { AuthController } = require("../controllers");
+const { AuthController, ViewController } = require("../controllers");
 
 // const upLoadImage = require("../middlewares/imgUpload");
 
@@ -13,5 +13,6 @@ router.route("/google").get(
         scope: ['profile', 'email']
     }));
 router.route('/signup').post(AuthController.signup)
+router.route('/login').get(ViewController.getLoginForm)
 router.route('/login').post(AuthController.login)
 module.exports = router

@@ -6,21 +6,21 @@ const { MerchaindiseController } = require(".");
 
 const getAllMerchaindise = catchAsync(async (req, res, next) => {
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
-    if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('error')
-    }
-    if (!merchaindises || merchaindises.length === 0) {
-        return next(new AppError("Merchaindises Not Found!", 404));
-    } else {
-        res.status(200).json({
-            "data": merchaindises,
-            "totalCount": merchaindises.length
-        });
-    }
-    // res.status(200).render('overview', {
-    //     title: 'Danh sách mặt hàng',
-    //     merchaindises
-    // });
+    // if (!merchaindises || merchaindises.length === 0) {
+    //     res.status(404).render('error')
+    // }
+    // if (!merchaindises || merchaindises.length === 0) {
+    //     return next(new AppError("Merchaindises Not Found!", 404));
+    // } else {
+    //     res.status(200).json({
+    //         "data": merchaindises,
+    //         "totalCount": merchaindises.length
+    //     });
+    // }
+    res.status(200).render('overview', {
+        title: 'Danh sách mặt hàng',
+        merchaindises
+    });
 });
 
 const getDetail = catchAsync(async (req, res, next) => {
