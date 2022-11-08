@@ -57,7 +57,7 @@ const merchaindiseSchema = mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.ObjectId,
-        ref: "SubCategory",
+        ref: "Category",
         required: [true, "Merchaindise must belong to subcategory!"],
     },
     slug: {

@@ -1,4 +1,4 @@
-const { Merchaindise } = require("../models");
+const { Merchaindise, Category } = require("../models");
 const CustomQuery = require('../utils/customQuery')
 
 const getAllMerchaindise = async (queryString) => {
@@ -11,7 +11,7 @@ const getAllMerchaindise = async (queryString) => {
 }
 
 const getDetail = async (id) => {
-    const merchaindise = await Merchaindise.findById(id)
+    const merchaindise = await Merchaindise.findById(id).populate("owner category")
     return merchaindise
 }
 
@@ -44,10 +44,26 @@ const updateMerchaindise = async (id, body) => {
     return updatedMerchaindise;
 }
 
+const getMedicalSupplies = async () => {
+    let result = []
+    let medical2Trees = []
+    let medical1Trees = await Category.find({ treeId: 1, parent: "6368b34e73b35ed398290cbd" })
+    for (item of medical1Trees) {
+        let medical2Tree = await Category.find({ treeId: 2, parent: item._id })
+        medical2Trees = medical2Trees.concat(medical2Tree)
+    }
+    for (item of medical2Trees) {
+        let merchaindise = await Merchaindise.find({ category: { $eq: item._id } }).populate("category")
+        result = result.concat(merchaindise)
+    }
+    return result
+}
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
     deleteMerchaindise,
     createMerchaindise,
-    updateMerchaindise
+    updateMerchaindise,
+    getMedicalSupplies
 }

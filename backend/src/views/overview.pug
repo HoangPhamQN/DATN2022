@@ -9,7 +9,7 @@ block content
           .card__header
             .card__picture
               .card__picture-overlay &nbsp;
-              img.card__picture-img(src=`/imgs/merchaindise/${merchaindise.imageAvatar}`, alt=`${merchaindise.name}`)
+              img.card__picture-img(src=`http://localhost:4000/${merchaindise.imageAvatar.slice(7).replaceAll("\\", "/")}`, alt=`${merchaindise.name}`)
             //- h3.heading-tertirary
             //-   span= merchaindise.name
           .card__name
@@ -28,4 +28,4 @@ block content
                     pan= `Đơn vị tính: ${merchaindise.unit}`
 
           .card__footer
-            a.btn.btn--green.btn--small(href=`/tour/${merchaindise.slug}`) Chi tiết
+            a.btn.btn--green.btn--small(href=`/merchaindise/chi-tiet/${merchaindise.id}`) Chi tiết

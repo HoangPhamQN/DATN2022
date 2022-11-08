@@ -2,36 +2,44 @@ const catchAsync = require("../utils/catchAsync");
 const { MerchaindiseService } = require("../services");
 const AppError = require("../utils/AppError");
 const { Merchaindise } = require("../models");
+const { MerchaindiseController } = require(".");
 
 const getAllMerchaindise = catchAsync(async (req, res, next) => {
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
     if (!merchaindises || merchaindises.length === 0) {
         res.status(404).render('error')
     }
-    // if (!merchaindises || merchaindises.length === 0) {
-    //     return next(new AppError("Merchaindises Not Found!", 404));
-    // } else {
-    //     res.status(200).json({
-    //         "data": merchaindises,
-    //         "totalCount": merchaindises.length
-    //     });
-    // }
-    res.status(200).render('overview', {
-        title: 'Danh sách mặt hàng',
-        merchaindises
-    });
+    if (!merchaindises || merchaindises.length === 0) {
+        return next(new AppError("Merchaindises Not Found!", 404));
+    } else {
+        res.status(200).json({
+            "data": merchaindises,
+            "totalCount": merchaindises.length
+        });
+    }
+    // res.status(200).render('overview', {
+    //     title: 'Danh sách mặt hàng',
+    //     merchaindises
+    // });
 });
 
 const getDetail = catchAsync(async (req, res, next) => {
     const merchaindise = await MerchaindiseService.getDetail(req.params.id);
     if (!merchaindise) {
-        return next(new AppError("Merchaindise Not Found!", 404));
-    } else {
-        res.status(200).json({
-            "data": merchaindise,
-            "totalCount": merchaindise.length
-        });
+        res.status(404).render('error')
     }
+    // if (!merchaindise) {
+    //     return next(new AppError("Merchaindise Not Found!", 404));
+    // } else {
+    //     res.status(200).json({
+    //         "data": merchaindise,
+    //         "totalCount": merchaindise.length
+    //     });
+    // }
+    res.status(200).render('merchaindise', {
+        title: 'Danh sách mặt hàng',
+        merchaindise
+    });
 })
 
 const deleteMerchaindise = catchAsync(async (req, res, next) => {
@@ -115,10 +123,27 @@ const updateMerchaindise = catchAsync(async (req, res, next) => {
     }
 })
 
+const getMedicalSupplies = catchAsync(async (req, res, next) => {
+    const merchaindises = await MerchaindiseService.getMedicalSupplies();
+    if (!merchaindises || merchaindises.length === 0) {
+        res.status(404).render('error')
+    }
+    res.status(200).render('overview', {
+        title: 'Danh sách mặt hàng',
+        merchaindises
+    });
+})
+
+const temp = catchAsync(async (req, res, next) => {
+    res.render('merchaindise')
+})
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
     deleteMerchaindise,
     createMerchaindise,
-    updateMerchaindise
+    updateMerchaindise,
+    getMedicalSupplies,
+    temp
 }

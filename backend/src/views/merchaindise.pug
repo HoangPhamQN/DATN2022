@@ -1,0 +1,24 @@
+extend base
+
+block content 
+    merchaindise
+        .merchaindise__wrapper
+            h1 #{merchaindise.name}
+            .merchaindise__wrapper__1 
+                img.merchaindise_img(src=`http://localhost:4000/${merchaindise.images[0].slice(7).replaceAll("\\", "/")}`, alt=`${merchaindise.name}`)
+                img.merchaindise_img(src=`http://localhost:4000/${merchaindise.images[1].slice(7).replaceAll("\\", "/")}`, alt=`${merchaindise.name}`)
+                img.merchaindise_img(src=`http://localhost:4000/${merchaindise.images[2].slice(7).replaceAll("\\", "/")}`, alt=`${merchaindise.name}`)
+                
+            .merchaindise__wrapper__2
+                .merchaindise__wrapper__2__item 
+                    span Mã đăng kiểm: #{merchaindise.registrationCode}
+                .merchaindise__wrapper__2__item 
+                    span Mô tả: #{merchaindise.description}
+                .merchaindise__wrapper__2__item 
+                    span Đơn giá: #{merchaindise.unitPrice} VND
+                .merchaindise__wrapper__2__item 
+                    span Đơn vị tính: #{merchaindise.unit}
+                .merchaindise__wrapper__2__item 
+                    span Số lượng đã bán: #{merchaindise.soldQuantity}
+                .merchaindise__wrapper__2__item 
+                    span Chủ sở hữu: #{merchaindise.owner.givenName}  #{merchaindise.owner.familyName}

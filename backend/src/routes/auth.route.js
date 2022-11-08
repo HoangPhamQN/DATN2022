@@ -12,5 +12,6 @@ router.route("/google").get(
     passport.authenticate('google', {
         scope: ['profile', 'email']
     }));
-router.route('/google/callback').get(AuthController.temp);
+router.route('/signup').post(AuthController.signup)
+router.route('/login').post(AuthController.login)
 module.exports = router
