@@ -77,7 +77,6 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const protect = catchAsync(async (req, res, next) => {
-    console.log("chua login")
     // 1) get the token and check if it there
     let token;
 

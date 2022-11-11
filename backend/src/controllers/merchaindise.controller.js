@@ -2,9 +2,11 @@ const catchAsync = require("../utils/catchAsync");
 const { MerchaindiseService } = require("../services");
 const AppError = require("../utils/AppError");
 const { Merchaindise } = require("../models");
-const { MerchaindiseController } = require(".");
+const { getCategoryName } = require('../utils/category')
 
 const getAllMerchaindise = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
+    console.log(22222, medicals)
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
     // if (!merchaindises || merchaindises.length === 0) {
     //     res.status(404).render('error')
@@ -19,12 +21,15 @@ const getAllMerchaindise = catchAsync(async (req, res, next) => {
     // }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
-        merchaindises
+        merchaindises,
+        medicals,
+        supplies
     });
 });
 
 const getDetail = catchAsync(async (req, res, next) => {
     const merchaindise = await MerchaindiseService.getDetail(req.params.id);
+    console.log(req.user)
     if (!merchaindise) {
         res.status(404).render('error')
     }

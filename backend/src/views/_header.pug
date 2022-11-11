@@ -1,8 +1,22 @@
 header.header
     nav.nav.nav--tours
         a.nav__el(href='/merchaindise/tat-ca-mat-hang') Tất cả mặt hàng
-        a.nav__el(href='/merchaindise/vat-tu-y-te') Vật tư y tế
-        a.nav__el(href='/merchaindise/thuoc') Thuốc
+        //- a.nav__el(href='' data-toggle='dropdown') Vật tư y tế
+        //- a.nav__el(href='/merchaindise/thuoc') Thuốc
+        .dropdown
+            a.nav__el.dropdown-toggle(href='/merchaindise/thuoc', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+                | Thuốc
+            ul.dropdown-menu
+                each item in medicals
+                    li
+                    a.dropdown-item(href='#')= item
+        .dropdown
+            a.nav__el.dropdown-toggle(href='/merchaindise/vat-tu-y-te', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+                | Vật tư y tế
+            ul.dropdown-menu
+                each item in supplies
+                    li
+                    a.dropdown-item(href='#')= item
         //- form.nav__search
         //- button.nav__search-btn
         //-     svg
