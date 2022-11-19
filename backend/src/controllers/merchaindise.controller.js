@@ -6,19 +6,10 @@ const { getCategoryName } = require('../utils/category')
 
 const getAllMerchaindise = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
-    console.log(22222, medicals)
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
-    // if (!merchaindises || merchaindises.length === 0) {
-    //     res.status(404).render('error')
-    // }
-    // if (!merchaindises || merchaindises.length === 0) {
-    //     return next(new AppError("Merchaindises Not Found!", 404));
-    // } else {
-    //     res.status(200).json({
-    //         "data": merchaindises,
-    //         "totalCount": merchaindises.length
-    //     });
-    // }
+    if (!merchaindises || merchaindises.length === 0) {
+        res.status(404).render('error')
+    }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
         merchaindises,
@@ -28,8 +19,8 @@ const getAllMerchaindise = catchAsync(async (req, res, next) => {
 });
 
 const getDetail = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
     const merchaindise = await MerchaindiseService.getDetail(req.params.id);
-    console.log(req.user)
     if (!merchaindise) {
         res.status(404).render('error')
     }
@@ -42,8 +33,8 @@ const getDetail = catchAsync(async (req, res, next) => {
     //     });
     // }
     res.status(200).render('merchaindise', {
-        title: 'Danh sách mặt hàng',
-        merchaindise
+        title: merchaindise.name,
+        merchaindise, medicals, supplies
     });
 })
 
@@ -143,6 +134,20 @@ const temp = catchAsync(async (req, res, next) => {
     res.render('merchaindise')
 })
 
+const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
+    const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug)
+    if (!merchaindises || merchaindises.length === 0) {
+        res.status(404).render('error', { medicals, supplies })
+    }
+    res.status(200).render('overview', {
+        title: 'Danh sách mặt hàng',
+        merchaindises,
+        medicals,
+        supplies
+    });
+})
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
@@ -150,5 +155,5 @@ module.exports = {
     createMerchaindise,
     updateMerchaindise,
     getMedicalSupplies,
-    temp
+    getMerchaindiseByCategory
 }

@@ -1,0 +1,24 @@
+extends base
+
+block content
+    main.main
+        merchaindise
+            .login-form
+                h2.heading-secondary.ma-bt-lg Thông tin đơn hàng
+                form( action=`/payment/${merchaindise.id}` method="post").form.form--login
+                    .form__group
+                        label.form__label(for='email') Tên sản phẩm
+                        input#email.form__input(value=`${merchaindise.name}`,  required, name="name", readonly)
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Số lượng
+                        input#password.form__input( required, name="quantity")
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Đơn giá
+                        input#password.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice", readonly)
+                    //- .form__group 
+                    //-     input(type="hidden", name="previous_url" value=`${url}`)
+                    .form__group 
+                        input(type="hidden", name="slug" value=`${merchaindise.slug}`)
+                    .form__group
+                        button(type='submit').btn.btn--green Thanh toán
+                        

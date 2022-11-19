@@ -1,0 +1,12 @@
+extend base
+
+block content 
+    .main__me
+        .me__link
+                a.btn.btn-primary(href=`/user/${me.id}/don-mua`) Đơn mua
+                a.btn.btn-primary(href=`/user/${me.id}/don-ban`) Đơn bán
+                a.btn.btn-primary(href=`/user/${me.id}/thong-bao`) Thông báo
+                a.btn.btn-primary(href=`/user/${me.id}`) Thông tin cá nhân
+                
+        .me__data
+            h1 Thông tin đơn mua ở đây

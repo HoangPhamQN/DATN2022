@@ -1477,3 +1477,53 @@ body {
 .buy__btn {
     background-color: blue;
 }
+
+.main__me {
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+}
+
+.me__link {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    flex-grow: 1;
+}
+
+.me__button {
+    /* flex-grow: 1; */
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: rgb(157, 230, 226) !important;
+    border: 2px solid red;
+    border-radius: 5px !important;
+    margin: 5px 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    color: black !important;
+}
+
+.me__data {
+    margin: 20px;
+    border: 1 solid black;
+    border-radius: 3px;
+    flex-grow: 8;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.form-label {
+    font-size: large !important;
+}
+
+.form-control {
+    height: 40px !important;
+    width: 500px !important;
+}

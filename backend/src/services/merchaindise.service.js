@@ -59,11 +59,19 @@ const getMedicalSupplies = async () => {
     return result
 }
 
+const getMerchaindiseByCategory = async (slug) => {
+    // const cateId = await Category.find({ id: { $eq: '634edd45dc378e9fcbcefb20' } })[0]
+    const cateId = (await Category.findOne({ slug: slug })).id
+    const result = await Merchaindise.find({ category: cateId })
+    return result
+}
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
     deleteMerchaindise,
     createMerchaindise,
     updateMerchaindise,
-    getMedicalSupplies
+    getMedicalSupplies,
+    getMerchaindiseByCategory
 }

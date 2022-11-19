@@ -30,7 +30,10 @@
     "passport-google-oauth20": "^2.0.0",
     "pug": "^3.0.2",
     "slugify": "^1.6.5",
-    "validator": "^13.7.0"
+    "solc": "^0.8.4",
+    "sold": "^3.0.0",
+    "validator": "^13.7.0",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

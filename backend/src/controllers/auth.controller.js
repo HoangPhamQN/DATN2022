@@ -12,7 +12,7 @@ const signToken = id => {
     });
 };
 
-const createAndSendToken = (user, statusCode, res) => {
+const createAndSendToken = (user, statusCode, res, previous_url) => {
     const token = signToken(user._id);
     const cookieOption = {
         expires: new Date(
@@ -30,11 +30,13 @@ const createAndSendToken = (user, statusCode, res) => {
     //         user: user
     //     }
     // });
-    res.send('<script>alert("Login successfully!"); window.location.href = "/merchaindise/vat-tu-y-te"; </script>');
-    // alert('Login successfully!');
-    // window.setTimeout(() => {
-    //     location.assign('/');
-    // }, 1500);
+    // res.send('<script>alert("Login successfully!"); window.history.go(-2); </script>');
+    if (typeof previous_url === "undefined") {
+        res.redirect('/hang-hoa/tat-ca-mat-hang')
+    }
+    else {
+        res.redirect(previous_url)
+    }
 };
 
 const signup = catchAsync(async (req, res, next) => {
@@ -50,8 +52,7 @@ const signup = catchAsync(async (req, res, next) => {
 });
 
 const login = catchAsync(async (req, res, next) => {
-    const { email, password } = req.body;
-    console.log(email, password)
+    const { email, password, previous_url } = req.body;
     if (!email || !password) {
         return next(new AppError('Please provide email and password', 400));
     }
@@ -65,7 +66,7 @@ const login = catchAsync(async (req, res, next) => {
     if (!correct) {
         return next(new AppError('Incorrect email or password!', 401));
     }
-    createAndSendToken(user, 200, res);
+    createAndSendToken(user, 200, res, previous_url);
 });
 
 const logout = catchAsync(async (req, res) => {
@@ -77,6 +78,7 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const protect = catchAsync(async (req, res, next) => {
+    const url = req.originalUrl
     // 1) get the token and check if it there
     let token;
 
@@ -93,9 +95,11 @@ const protect = catchAsync(async (req, res, next) => {
     }
 
     if (!token) {
-        return next(
-            new AppError('You are not login! Please login to get access', 401)
-        );
+        // return next(
+        //     new AppError('You are not login! Please login to get access', 401)
+        // );
+        // res.send('<script>alert("Vui lòng đăng nhập để truy cập tài nguyên này!"); window.location.href = "/auth/login"; </script>');
+        res.render('login', { url })
     }
     // 2) verification token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

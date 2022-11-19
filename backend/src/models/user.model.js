@@ -64,6 +64,10 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    walletAddress: {
+        type: String,
+        required: [true, "Please provide your wallet address!"],
+    },
 }, {
     timestamps: true,
     toJSON: { virtuals: true },
