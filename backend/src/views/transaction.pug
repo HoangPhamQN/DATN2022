@@ -26,9 +26,24 @@ block content
             let ABI = (await (await fetch(`http://localhost:4000/user-contract/${Address}`, {method: "GET"})).json()).abi;
             window.web3 = await new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address);
-            let totalETH = document.getElementById("total-eth").value;
-            await window.contract.methods.deposit().send({from: account, value: 10});
-            let toAddress = document.getElementById("to-address").value;
-            await window.contract.methods.withdraw(toAddress, 10).send({from: account});
+            //- let totalETH = document.getElementById("total-eth").value;
+            let totalETH = window.web3.utils.toWei('1', 'ether');
+            //- await window.contract.methods.deposit().send({from: account, value: totalETH});
+            window.contract.methods.deposit().send({from: account, value: totalETH})
+                .then(tx => {
+                    window.alert('Giao dịch thành công, hãy xác nhận khi nhận được hàng');
+                    window.location.href='http://localhost:4000';
+                })
+                .catch(e => {
+                    if (e.code === 4001){
+                        window.alert('Hủy giao dịch thành công!');
+                        window.location.href='http://localhost:4000';
+                    } 
+                });
+
+            //- console.log(333333);
+            
+            //- let toAddress = document.getElementById("to-address").value;
+            //- await window.contract.methods.withdraw(toAddress, totalETH).send({from: account});
         }
                         

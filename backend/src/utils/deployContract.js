@@ -11,7 +11,7 @@ const deployContract = async (fileName, walletAddress, buyerId) => {
     const Web3 = require("web3");
 
     // Setting up a HttpProvider
-    const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+    const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
     // Reading the file
     fs.readFile(`./src/blockchain/contracts/${fileName}`, 'utf8', (err, data) => {
         if (err) {
@@ -47,6 +47,7 @@ const deployContract = async (fileName, walletAddress, buyerId) => {
 
 
         contract = new web3.eth.Contract(ABI);
+        console.log(111, contract)
         mainAccount = walletAddress;
         contract
             .deploy({ data: bytecode })
