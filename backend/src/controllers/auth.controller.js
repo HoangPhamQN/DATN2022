@@ -46,7 +46,8 @@ const signup = catchAsync(async (req, res, next) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
         phoneNumber: req.body.phoneNumber,
-        role: req.body.role
+        role: req.body.role,
+        walletAddress: req.body.walletAddress
     });
     createAndSendToken(newUser, 201, res);
 });

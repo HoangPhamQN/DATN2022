@@ -50,6 +50,7 @@ const deleteMerchaindise = catchAsync(async (req, res, next) => {
 });
 
 const createMerchaindise = catchAsync(async (req, res, next) => {
+    console.log(222222);
     if (!req.files.image1 || !req.files.image2 || !req.files.image3 || !req.files.image4) {
         return next(new ApiError('Vui lòng chọn ảnh cho mặt hàng!', 400));
     }
@@ -67,6 +68,7 @@ const createMerchaindise = catchAsync(async (req, res, next) => {
         { images: imagesPath }
     );
     const merchaindise = await MerchaindiseService.createMerchaindise(body);
+    console.log(1111, merchaindise)
     if (!merchaindise) {
         return next(
             new AppError('Can not create new Merchaindise, please check again!', 400)

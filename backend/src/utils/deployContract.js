@@ -51,7 +51,7 @@ const deployContract = async (fileName, walletAddress, buyerId) => {
         mainAccount = walletAddress;
         contract
             .deploy({ data: bytecode })
-            .send({ from: mainAccount, gas: 470000 })
+            .send({ from: mainAccount, gas: 1500000 })
             .on("receipt", async (receipt) => {
                 // Contract Address will be returned here
                 console.log("Deployed Contract Address:", receipt.contractAddress);

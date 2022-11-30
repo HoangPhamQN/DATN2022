@@ -1,7 +1,8 @@
 const createContractFile = (body) => {
     const fs = require('fs');
     const dir = './src/blockchain/contracts';
-    let { name, quantity, unitPrice, slug } = body;
+    let { name, quantity, unitPrice, slug, buyerAddress, sellerAddress } = body;
+    let totalInvoice = unitPrice * quantity;
 
     const totalContract = fs.readdirSync(dir).length
     const nameOverided = slug.replaceAll('-', ' ')
@@ -11,9 +12,20 @@ const createContractFile = (body) => {
 pragma solidity ^0.8.4;
 
 contract Contract_${totalContract} {
-    string public name = "${nameOverided}";
+    struct Order {
+        address orderAddress;
+        address buyer;
+        address seller;
+        uint256 totalInvoice;
+        uint256 quantity;
+        string productName;
+    }
+    address public buyerAddress = ${buyerAddress};
+    address public sellerAddress = ${sellerAddress};
+    string public productName = "${nameOverided}";
     uint public quantity = ${quantity};
-    uint public unitPrice = ${unitPrice};
+    uint public totalInvoice = ${totalInvoice};
+
 
     function deposit() external payable {
     }
@@ -26,8 +38,20 @@ contract Contract_${totalContract} {
         return address(this).balance;
     }
 
-    function getAddress() external view returns(address) {
+    function getAddress() public view returns(address) {
         return address(this);
+    }
+
+    function getOrder() public view returns (Order memory) {
+        return
+            Order(
+                getAddress(),
+                buyerAddress,
+                sellerAddress,
+                totalInvoice,
+                quantity,
+                productName
+            );
     }
 }
 `;

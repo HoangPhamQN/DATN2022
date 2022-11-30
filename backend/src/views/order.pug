@@ -10,3 +10,5 @@ block content
                 
         .me__data
             h1 Thông tin đơn bán ở đây
+        each order in orderResult
+            h1 #{order.productName}

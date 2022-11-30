@@ -12,11 +12,16 @@ const getPaymentForm = catchAsync(async (req, res, next) => {
     res.render('payment-form', { merchaindise })
 })
 const createAndDeployContract = catchAsync(async (req, res, next) => {
+    let buyerAddress = req.user.walletAddress;
+    let sellerAddress = (await Merchaindise.find({ slug: req.body.slug }).populate("owner"))[0].owner.walletAddress;
+    req.body.buyerAddress = buyerAddress;
+    req.body.sellerAddress = sellerAddress;
     let contractFileName = createContractFile(req.body);
-    let walletAddress = req.user.walletAddress;
-    await deployContract(contractFileName, walletAddress, req.user.id);
+    // let walletAddress = req.user.walletAddress;
+    await deployContract(contractFileName, buyerAddress, req.user.id);
     // res.render('transaction')
     setTimeout(async () => {
+        let userId = req.user.id;
         let userContract = (await UserContract.find().sort({ createdAt: -1 }))[0];
         let abi = userContract.abi;
         let address = userContract.contractAddress;
@@ -24,7 +29,7 @@ const createAndDeployContract = catchAsync(async (req, res, next) => {
         let fromAddress = req.user.walletAddress;
         let toAddress = (await Merchaindise.find({ slug: req.body.slug }).populate("owner"))[0].owner.walletAddress;
         let totalETH = req.body.quantity * req.body.unitPrice;
-        res.render('transaction', { abi, address, fromAddress, toAddress, totalETH })
+        res.render('transaction', { userId, abi, address, fromAddress, toAddress, totalETH })
     }, 1500)
 
 
