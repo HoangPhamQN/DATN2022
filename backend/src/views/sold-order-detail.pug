@@ -31,8 +31,10 @@ block content
                     .form__group
                         button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
                     input(type="hidden", id="address", value=`${address}`)
+                    input(type="hidden", id="dueDate", value=`${orderInfo.dueDate}`)
                     input(type="hidden", id="seller-id", value=`${me.id}`)
                     input(type="hidden", id="seller-address", value=`${me.walletAddress}`)
+                    input(type="hidden", id="buyer-address", value=`${orderInfo.buyer}`)
 
     script.
         async function orderCancel(){
@@ -42,6 +44,8 @@ block content
             }
             let orderAddress = document.getElementById('address').value;
             let buyerAddress = document.getElementById('buyer-address').value;
+            let sellerAddress = document.getElementById('seller-address').value;
+            let userId = document.getElementById('seller-id').value;
 
             let ABI = (await (await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "GET"})).json()).abi;
             window.web3 = await new Web3(window.ethereum);
@@ -49,23 +53,35 @@ block content
             console.log(await window.contract.methods.getBalance().call())
             let orderInfo = await window.contract.methods.getOrder().call();
             let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
-            await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: buyerAddress, gas: 1500000});
+            //- await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000});
+            window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000})
+                .then(async tx => {
+                    await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
+                    window.alert('Bạn đã hủy đơn hàng thành công!');
+                    window.location.href=`http://localhost:4000/user/${userId}`;
+                })
+                .catch(async e => {
+                    if (e.code === 4001){
+                        window.alert('Hủy đơn hàng chưa thành công!');
+                        window.location.href=`http://localhost:4000/user/${userId}/`;
+                    } 
+                });
 
-            let userId = document.getElementById('buyer-id').value;
-            await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
-            window.alert('Bạn đã hủy đơn hàng thành công!');
-            window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
+           
         }
 
         async function withDraw(){
+            if(document.getElementById('status').value !== 'Deliveried'){
+                let dueDate = document.getElementById('dueDate').value;
+                dueDate = new Date(dueDate * 1000);
+                if(!(document.getElementById('status').value == 'New' && dueDate < Date.now())){
+                    window.alert('Trạng thái đơn hàng chưa được phép rút tiền!');
+                    return
+                }   
+            }
             if(window.ethereum !== "undefined") {
                 const accounts = await ethereum.request({method: "eth_requestAccounts"});
             }
-            if(document.getElementById('status').value !== 'Deliveried'){
-                window.alert('Trạng thái đơn hàng chưa được phép rút tiền!');
-                return
-            }
-
             let userId = document.getElementById('seller-id').value;
             let orderAddress = document.getElementById('address').value;
             let sellerAddress = document.getElementById('seller-address').value;
@@ -92,12 +108,4 @@ block content
                         window.location.href=`http://localhost:4000/user/${userId}/`;
                     } 
                 });
-
-            //- let orderAddress = document.getElementById('address').value;
-            //- let response = await fetch(`http://localhost:4000/user-contract/xac-nhan/${orderAddress}`, {method: "POST"});
-            //- if(response.status == 200){
-            //-     let userId = document.getElementById('buyer-id').value;
-            //-     window.alert('Cảm ơn bạn đã xác nhận khi nhận được hàng!');
-            //-     window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
-            //- }
         }
