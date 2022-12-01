@@ -3,12 +3,15 @@ extend base
 block content 
     .main__me
         .me__link
-                a.btn.btn-primary(href=`/user/${me.id}/don-mua`) Đơn mua
-                a.btn.btn-primary(href=`/user/${me.id}/don-ban`) Đơn bán
-                a.btn.btn-primary(href=`/user/${me.id}/thong-bao`) Thông báo
                 a.btn.btn-primary(href=`/user/${me.id}`) Thông tin cá nhân
+                a.btn.btn-primary(href=`/user/${me.id}/don-hang-cua-ban`) Đơn hàng của bạn
+                a.btn.btn-primary(href='#') Đăng bài
                 
         .me__data
-            h1 Thông tin đơn bán ở đây
-        each order in orderResult
-            h1 #{order.productName}
+            h1 DANH SÁCH ĐƠN HÀNG CỦA BẠN
+            br
+            each order, index in orderResult
+                .don-mua
+                    //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
+                    span.don__mua_span #{index +1}
+                    a.don__mua__link(href=`http://localhost:4000/user-contract/chi-tiet/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}

@@ -16,15 +16,24 @@ contract Contract_${totalContract} {
         address orderAddress;
         address buyer;
         address seller;
-        uint256 totalInvoice;
-        uint256 quantity;
+        uint totalInvoice;
+        uint quantity;
+        uint256 dueDate;
         string productName;
+        order_status status;
+    }
+    enum order_status {
+        NEW,
+        DELIVERIED,
+        CANCELLED
     }
     address public buyerAddress = ${buyerAddress};
     address public sellerAddress = ${sellerAddress};
     string public productName = "${nameOverided}";
     uint public quantity = ${quantity};
     uint public totalInvoice = ${totalInvoice};
+    uint256 public dueDate = block.timestamp + 2 weeks;
+    order_status public status = order_status.NEW;
 
 
     function deposit() external payable {
@@ -50,8 +59,14 @@ contract Contract_${totalContract} {
                 sellerAddress,
                 totalInvoice,
                 quantity,
-                productName
+                dueDate,
+                productName,
+                status
             );
+    }
+
+    function changeStatus(order_status _status) public {
+        status = _status;
     }
 }
 `;

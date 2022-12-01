@@ -17,12 +17,12 @@ block content
                     .merchaindise__wrapper__2__item 
                         span Mô tả: #{merchaindise.description}
                     .merchaindise__wrapper__2__item 
-                        span Đơn giá: #{merchaindise.unitPrice} VND
+                        span Đơn giá: #{merchaindise.unitPrice} ETH
                     .merchaindise__wrapper__2__item 
                         span Đơn vị tính: #{merchaindise.unit}
                     .merchaindise__wrapper__2__item 
                         span Số lượng đã bán: #{merchaindise.soldQuantity}
                     .merchaindise__wrapper__2__item 
-                        span Chủ sở hữu: #{merchaindise.owner.name}
+                        span Chủ sở hữu: #{merchaindise.owner.email}
                 .buy
                     a.btn.btn--green.buy__btn.btn--small(href=`/payment/${merchaindise.id}`) Mua ngay

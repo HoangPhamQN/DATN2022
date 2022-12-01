@@ -6,15 +6,24 @@ contract Contract_59 {
         address orderAddress;
         address buyer;
         address seller;
-        uint256 totalInvoice;
-        uint256 quantity;
+        uint totalInvoice;
+        uint quantity;
+        uint dueDate;
         string productName;
+        order_status status;
+    }
+    enum order_status {
+        NEW,
+        DELIVERIED,
+        CANCELLED
     }
     address public buyerAddress = 0xA379C7bE997Be6C3747240Dcb28eBB7dD27935DD;
     address public sellerAddress = 0xf0DbD9E679a18Aa3498a5aC002d21832360d5a8E;
     string public productName = "bom kim tiem vinahancook loai 20 ml";
     uint public quantity = 2;
     uint public totalInvoice = 4;
+    uint public dueDate = now + 2 weeks;
+    order_status public status = order_status.NEW;
 
 
     function deposit() external payable {
@@ -40,7 +49,13 @@ contract Contract_59 {
                 sellerAddress,
                 totalInvoice,
                 quantity,
-                productName
+                dueDate,
+                productName,
+                status
             );
+    }
+
+    function changeStatus(order_status _status) public {
+        status = _status;
     }
 }

@@ -32,7 +32,6 @@ const getContractByUser = catchAsync(async (req, res, next) => {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
         let contract = await new web3.eth.Contract(abi, address);
-        console.log(11111, contract)
         let orderInfo = await contract.methods.getOrder().call();
         orderResult.push(orderInfo);
     }
@@ -44,8 +43,61 @@ const getContractByUser = catchAsync(async (req, res, next) => {
     });
 })
 
+const getContractDetail = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = req.user;
+    const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
+    let abi = contractDetail['abi'];
+    let address = contractDetail['contractAddress'];
+    let contract = await new web3.eth.Contract(abi, address);
+    let orderInfo = await contract.methods.getOrder().call();
+    if (!orderInfo) {
+        res.status(404).render('error')
+    }
+    let seller = await UserService.getSeller(orderInfo.seller);
+    res.render('order-detail', {
+        orderInfo, me, seller, medicals, supplies, address
+    });
+})
+
+const getSoldContractDetail = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = req.user;
+    const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
+    let abi = contractDetail['abi'];
+    let address = contractDetail['contractAddress'];
+    let contract = await new web3.eth.Contract(abi, address);
+    let orderInfo = await contract.methods.getOrder().call();
+    if (!orderInfo) {
+        res.status(404).render('error')
+    }
+    let buyer = await UserService.getBuyer(orderInfo.buyer);
+    res.render('sold-order-detail', {
+        orderInfo, me, buyer, medicals, supplies, address
+    });
+})
+
+const confirmGivenMerchaindise = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = await UserService.getMe(req.user.id);
+    const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
+    let abi = contractDetail['abi'];
+    let address = contractDetail['contractAddress'];
+    let contract = await new web3.eth.Contract(abi, address);
+    let orderInfo = await contract.methods.getOrder().call();
+    await contract.methods.changeStatus('1').send({ from: orderInfo['buyer'] });
+    orderInfo = await contract.methods.getOrder().call();
+    console.log(22222222, orderInfo['dueDate']);
+    res.status(200).json({
+        success: true
+    });
+})
+
 module.exports = {
     getAbiByContractAddress,
     deleteUserContractByAddress,
-    getContractByUser
+    getContractByUser,
+    getContractDetail,
+    getSoldContractDetail,
+    confirmGivenMerchaindise
 }

@@ -1482,6 +1482,9 @@ body {
     display: flex;
     flex-direction: row;
     height: 450px;
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
 }
 
 .me__link {
@@ -1515,7 +1518,11 @@ body {
     border-radius: 3px;
     flex-grow: 8;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px
 }
 
 
@@ -1526,4 +1533,52 @@ body {
 .form-control {
     height: 40px !important;
     width: 500px !important;
+}
+
+.list-group {
+    width: 100% !important;
+}
+
+.don-mua {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: large;
+    font-weight: 500;
+}
+
+.don__mua__link {
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.don__mua_span {
+    width: 10px;
+}
+
+.me__nav {
+    width: 100%;
+}
+
+.me__nav_tabs {
+    font-size: large;
+    font-weight: 500;
+}
+
+.no__order {
+    font-size: large;
+    font-weight: 700;
+    padding-left: 20px;
+}
+
+#nav-home {
+    padding-top: 20px
+}
+
+#nav-profile {
+    padding-top: 20px;
+}
+
+#nav-contact {
+    padding-top: 20px;
 }

@@ -1,0 +1,63 @@
+extend base
+
+block content 
+    .main__me
+        nav.me__nav
+            #nav-tab.me__nav_tabs.nav.nav-tabs(role='tablist')
+                button#nav-home-tab.nav-link.active(data-bs-toggle='tab', data-bs-target='#nav-home', type='button', role='tab', aria-controls='nav-home', aria-selected='true') Thông tin cá nhân
+                button#nav-profile-tab.nav-link(data-bs-toggle='tab', data-bs-target='#nav-profile', type='button', role='tab', aria-controls='nav-profile', aria-selected='false') Đơn mua
+                button#nav-contact-tab.nav-link(data-bs-toggle='tab', data-bs-target='#nav-contact', type='button', role='tab', aria-controls='nav-contact', aria-selected='false') Đơn bán
+                button#nav-contact-tab.nav-link(data-bs-toggle='tab', data-bs-target='#nav-posts', type='button', role='tab', aria-controls='nav-posts', aria-selected='false') Danh sách bài viết
+                button#nav-contact-tab.nav-link(data-bs-toggle='tab', data-bs-target='#nav-dang-bai', type='button', role='tab', aria-controls='nav-dang-bai', aria-selected='false') Đăng bài
+            #nav-tabContent.tab-content
+                #nav-home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='nav-home-tab', tabindex='0')
+                    //- form
+                    //-     .mb-3
+                    //-         label.form-label(for='name' style="font-weight:bold; text-transform: uppercase;") Tên người dùng
+                    //-         input(value=`${me.name}` style="font-size:large")#name.form-control()
+                    //-     .mb-3
+                    //-         label.form-label(for='email' style="font-weight:bold; text-transform: uppercase;") Địa chỉ email
+                    //-         input(value=`${me.email}` style="font-size:large")#email.form-control()
+                    //-     .mb-3
+                    //-         label.form-label(for='phone' style="font-weight:bold; text-transform: uppercase;") Số điện thoại
+                    //-         input(value=`${me.phoneNumber}` style="font-size:large")#phone.form-control()
+                    //-     button.btn.btn-primary(type='submit' style="font-size:large") Cập nhật thông tin
+                    
+                    form( action=`http://localhost:4000/user-contract/xac-nhan/${address}` method="patch").form.form--login
+                        .form__group
+                            label.form__label(for='email') Tên người dùng
+                            input.form__input(value=`${me.name}`,  required, name="name")
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Địa chỉ email
+                            input.form__input(value=`${me.email}`,  required, name="email")
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Số điện thoại
+                            input.form__input( value=`${me.phoneNumber} ETH`, required, name="phone", id="phone")
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Địa chỉ
+                            input.form__input( value=`${me.address} ETH`, required, name="address", id="address")
+                        
+                        button(type='submit').btn.btn--green Cập nhật thông tin
+
+                #nav-profile.tab-pane.fade(role='tabpanel', aria-labelledby='nav-profile-tab', tabindex='0')
+                    if orderResult.length == 0
+                        .no__order HIỆN TẠI BẠN CHƯA CÓ ĐƠN MUA NÀO!
+                    else
+                        h1 DANH SÁCH ĐƠN MUA CỦA BẠN
+                        each order, index in orderResult
+                            .don-mua
+                                //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
+                                span.don__mua_span #{index +1}
+                                a.don__mua__link(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
+                #nav-contact.tab-pane.fade(role='tabpanel', aria-labelledby='nav-contact-tab', tabindex='0')
+                    if orderWithRoleSeller.length == 0
+                        .no__order HIỆN TẠI BẠN CHƯA CÓ ĐƠN BÁN NÀO!
+                    else
+                        h1 DANH SÁCH ĐƠN BÁN CỦA BẠN
+                        each order, index in orderWithRoleSeller
+                            .don-mua
+                                //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
+                                span.don__mua_span #{index +1}
+                                a.don__mua__link(href=`http://localhost:4000/user-contract/don-ban/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
+                #nav-posts.tab-pane.fade(role='tabpanel', aria-labelledby='nav-posts-tab', tabindex='0') Danh sách bài viết
+                #nav-dang-bai.tab-pane.fade(role='tabpanel', aria-labelledby='nav-dang-bai-tab', tabindex='0') Đăng bài

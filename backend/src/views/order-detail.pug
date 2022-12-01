@@ -1,0 +1,68 @@
+extends base
+
+block content
+    main.main
+            .login-form
+                h2.heading-secondary.ma-bt-lg Chi tiết đơn hàng
+                form( action=`http://localhost:4000/user-contract/xac-nhan/${address}` method="patch").form.form--login
+                    .form__group
+                        label.form__label(for='email') Tên sản phẩm
+                        input.form__input(value=`${orderInfo.productName.charAt(0).toUpperCase() + orderInfo.productName.slice(1)}`,  required, name="name", readonly)
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Số lượng
+                        input.form__input(value=`${orderInfo.quantity}`,  required, name="quantity", readonly)
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Tổng số tiền
+                        input.form__input( value=`${orderInfo.totalInvoice} ETH`, required, name="totalInvoice", readonly, id="totalInvoice")
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Thông tin người bán
+                        input.form__input( value=`Email: ${seller.email} / SĐT: ${seller.phoneNumber} `, readonly)
+                    .form__group.ma-bt-md
+                        label.form__label(for='password') Trạng thái đơn hàng
+                        if orderInfo.status == '0'
+                            input.form__input( value='New', required, id="status", readonly)
+                        else if orderInfo.status == '1'
+                            input.form__input( value='Deliveried', required, id="status", readonly)
+                        else
+                            input.form__input( value='Cancelled', required, id="status", readonly)
+                    
+                    .form__group
+                        button(type='button', onclick='confirmGiven()').btn.btn--green Đã nhận được hàng
+                    .form__group
+                        button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
+                    input(type="hidden", id="address", value=`${address}`)
+                    input(type="hidden", id="buyer-id", value=`${me.id}`)
+                    input(type="hidden", id="buyer-address", value=`${me.walletAddress}`)
+
+    script.
+        async function orderCancel(){
+            if(document.getElementById('status').value !== 'New'){
+                window.alert('Trạng thái đơn hàng không được phép hủy!');
+                return
+            }
+            let orderAddress = document.getElementById('address').value;
+            let buyerAddress = document.getElementById('buyer-address').value;
+
+            let ABI = (await (await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "GET"})).json()).abi;
+            window.web3 = await new Web3(window.ethereum);
+            window.contract = await new window.web3.eth.Contract(ABI, orderAddress);
+            console.log(await window.contract.methods.getBalance().call())
+            let orderInfo = await window.contract.methods.getOrder().call();
+            let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
+            await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: buyerAddress, gas: 1500000});
+
+            let userId = document.getElementById('buyer-id').value;
+            await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
+            window.alert('Bạn đã hủy đơn hàng thành công!');
+            window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
+        }
+
+        async function confirmGiven(){
+            let orderAddress = document.getElementById('address').value;
+            let response = await fetch(`http://localhost:4000/user-contract/xac-nhan/${orderAddress}`, {method: "POST"});
+            if(response.status == 200){
+                let userId = document.getElementById('buyer-id').value;
+                window.alert('Cảm ơn bạn đã xác nhận khi nhận được hàng!');
+                window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
+            }
+        }

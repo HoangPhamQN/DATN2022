@@ -4,6 +4,9 @@ const userContractSchema = mongoose.Schema({
     userId: {
         type: String
     },
+    sellerId: {
+        type: String
+    },
     abi: {
         type: Array
     },

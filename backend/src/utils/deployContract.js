@@ -1,4 +1,4 @@
-const deployContract = async (fileName, walletAddress, buyerId) => {
+const deployContract = async (fileName, walletAddress, buyerId, sellerId) => {
     const { UserContract } = require('../models')
     // solc compiler
     const solc = require("solc");
@@ -47,7 +47,6 @@ const deployContract = async (fileName, walletAddress, buyerId) => {
 
 
         contract = new web3.eth.Contract(ABI);
-        console.log(111, contract)
         mainAccount = walletAddress;
         contract
             .deploy({ data: bytecode })
@@ -57,6 +56,7 @@ const deployContract = async (fileName, walletAddress, buyerId) => {
                 console.log("Deployed Contract Address:", receipt.contractAddress);
                 await UserContract.create({
                     userId: buyerId,
+                    sellerId: sellerId,
                     abi: ABI,
                     contractAddress: receipt.contractAddress
                 })

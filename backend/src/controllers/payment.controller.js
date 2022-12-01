@@ -14,11 +14,12 @@ const getPaymentForm = catchAsync(async (req, res, next) => {
 const createAndDeployContract = catchAsync(async (req, res, next) => {
     let buyerAddress = req.user.walletAddress;
     let sellerAddress = (await Merchaindise.find({ slug: req.body.slug }).populate("owner"))[0].owner.walletAddress;
+    let sellerId = (await Merchaindise.find({ slug: req.body.slug }).populate("owner"))[0].owner.id;
     req.body.buyerAddress = buyerAddress;
     req.body.sellerAddress = sellerAddress;
     let contractFileName = createContractFile(req.body);
     // let walletAddress = req.user.walletAddress;
-    await deployContract(contractFileName, buyerAddress, req.user.id);
+    await deployContract(contractFileName, buyerAddress, req.user.id, sellerId);
     // res.render('transaction')
     setTimeout(async () => {
         let userId = req.user.id;
@@ -30,7 +31,7 @@ const createAndDeployContract = catchAsync(async (req, res, next) => {
         let toAddress = (await Merchaindise.find({ slug: req.body.slug }).populate("owner"))[0].owner.walletAddress;
         let totalETH = req.body.quantity * req.body.unitPrice;
         res.render('transaction', { userId, abi, address, fromAddress, toAddress, totalETH })
-    }, 1500)
+    }, 2000)
 
 
 });

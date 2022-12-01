@@ -9,12 +9,19 @@ contract Contract_54 {
         uint256 totalInvoice;
         uint256 quantity;
         string productName;
+        order_status status;
+    }
+    enum order_status {
+        NEW,
+        DELIVERIED,
+        CANCELLED
     }
     address public buyerAddress = 0xA379C7bE997Be6C3747240Dcb28eBB7dD27935DD;
     address public sellerAddress = 0xf0DbD9E679a18Aa3498a5aC002d21832360d5a8E;
-    string public productName = "bom kim tiem vinahancook loai 20 ml";
+    string public productName = "luoi dao mo doctor so 10";
     uint public quantity = 1;
-    uint public totalInvoice = 100000;
+    uint public totalInvoice = 5;
+    order_status public status = order_status.NEW;
 
 
     function deposit() external payable {
@@ -40,7 +47,12 @@ contract Contract_54 {
                 sellerAddress,
                 totalInvoice,
                 quantity,
-                productName
+                productName,
+                status
             );
+    }
+
+    function changeStatus(order_status _status) public {
+        status = _status;
     }
 }

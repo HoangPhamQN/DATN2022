@@ -9,11 +9,26 @@ const deleteUserContractByAddress = async (address) => {
 }
 
 const getContractByUser = async (userId) => {
-    return await UserContract.find({ userId: userId }).sort('-createdAt').limit(5);
+    return await UserContract.find({ userId: userId }).sort('-createdAt');
 }
+
+const getContractBySeller = async (sellerId) => {
+    return await UserContract.find({ sellerId: sellerId }).sort('-createdAt');
+}
+
+const getContractDetail = async (address) => {
+    return await UserContract.find({ contractAddress: address });
+}
+
+const confirmGivenMerchainise = async (address) => {
+
+}
+
 
 module.exports = {
     getAbiByContractAddress,
     deleteUserContractByAddress,
-    getContractByUser
+    getContractByUser,
+    getContractBySeller,
+    getContractDetail
 }
