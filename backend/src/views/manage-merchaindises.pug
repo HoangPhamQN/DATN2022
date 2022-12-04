@@ -1,0 +1,95 @@
+doctype html 
+html
+    head 
+        block head
+            meta(charset='UTF-8')
+            meta(name='viewport' content='width=device-width, initial-scale=1.0')
+            link(rel='stylesheet' href='/css/style.css')
+            link(rel='shortcut icon' type='image/img' href='/imgs/favicon.png')
+            link(rel='style' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+            link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous")
+            title H Medicals | #{title}
+
+   
+    body
+        // header
+        header.header
+            nav.nav.nav--tours
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1&limit=10') Quản lý người dùng
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1&limit=6') Quản lý sản phẩm
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-danh-muc?page=1$limit=10') Quản lý danh mục
+                
+            .header__logo
+                img(src='/imgs/logo-white.png' alt='Natours logo')
+            nav.nav.nav--user
+                if user
+                    a.nav__el.nav__el--logout Log Out
+                    .nav__el
+                        img.nav__user-img(src=`http://localhost:4000/${user.photoUrl.slice(11).replaceAll("\\", "/")}` alt='User photo')
+                        span= user.name.split(' ')[0]
+                else
+                    a.nav__el.nav__el-cta(href='#') Đăng kí
+                    a.nav__el.nav__el-cta(href='/auth/login') Đăng nhập
+
+        // content
+        block content 
+            main.main
+                .btn-back__manage__merchaindise
+                    h1 DANH SÁCH SẢN PHẨM
+                    button.btn.btn-secondary(onclick='back()') Quay lại
+                .card-container
+                
+                    each merchaindise in merchaindises
+                        .card
+                            .card__header
+                                .card__picture
+                                    .card__picture-overlay &nbsp;
+                                    img.card__picture-img(src=`http://localhost:4000/${merchaindise.imageAvatar.slice(11).replaceAll("\\", "/")}`, alt=`${merchaindise.name}`)
+                                //- h3.heading-tertirary
+                                //-   span= merchaindise.name
+                            .card__name
+                                h3= merchaindise.name
+                            .card__details
+                                h4.card__sub-heading= 'Mã đăng kí'
+                                p.card__text= merchaindise.registrationCode
+                                .card__detail__wrapper
+                                    .card__data
+                                        span= `Mô tả: ${merchaindise.description}`
+                                    .card__data
+                                        span= `Đơn giá: ${merchaindise.unitPrice}`
+                                    .card__data
+                                        span= `Số lượng đã bán: ${merchaindise.soldQuantity}`
+                                    .card__data
+                                        pan= `Đơn vị tính: ${merchaindise.unit}`
+
+                            .card__footer
+                                a.btn.btn--green.btn--small(href=`http://localhost:4000/user/admin/chi-tiet-san-pham/${merchaindise.id}`) Chi tiết
+                               
+            nav(aria-label='Page navigation example').paginate
+                    ul.pagination.justify-content-center
+                        li.page-item.disabled
+                            a.page-link Previous
+                        li.page-item
+                            a.page-link(href='?page=1&limit=6') 1
+                        li.page-item
+                            a.page-link(href='?page=2&limit=6') 2
+                        li.page-item
+                            a.page-link(href='?page=3&limit=6') 3
+                        li.page-item
+                            a.page-link(href='#') Next
+            script.
+                function back(){
+                    history.back()
+                }
+        // footer
+        include _footer
+
+        //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js')
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous")
+        script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js')
+  
+        //- script(src='/js/mapbox.js')
+        //- - script(src='../utils/login.js')
+
+
+        

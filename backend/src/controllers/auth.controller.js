@@ -31,10 +31,11 @@ const createAndSendToken = (user, statusCode, res, previous_url) => {
     //     }
     // });
     // res.send('<script>alert("Login successfully!"); window.history.go(-2); </script>');
-    if (user.role == "6350b3325bc8d1ddf91786cd") {
-        res.render('admin')
+    console.log(user.role.toString())
+    if (user.role.toString() == "6350b3325bc8d1ddf91786cd") {
+        res.redirect('/user/admin')
     }
-    if (typeof previous_url === "undefined") {
+    else if (typeof previous_url === "undefined") {
         res.redirect('/hang-hoa/tat-ca-mat-hang')
     }
     else {

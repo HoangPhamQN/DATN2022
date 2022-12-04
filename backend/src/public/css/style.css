@@ -1575,6 +1575,7 @@ main {
     border-radius: 5px;
     width: 160px;
     text-align: center;
+    text-decoration: none;
 }
 
 .me__nav {
@@ -1656,4 +1657,32 @@ main {
 
 .btn-back__wrapper {
     text-align: right;
+}
+
+.btn-back__manage__merchaindise {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 30px;
+    padding-left: 65px;
+    padding-right: 70px;
+}
+
+.welcome__admin {
+    text-align: center;
+}
+
+.form__button_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.pagination {
+    font-size: large !important;
+}
+
+a.don__mua__status {
+    color: black;
+    margin-left: 20px;
 }

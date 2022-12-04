@@ -15,8 +15,8 @@ html
         // header
         header.header
             nav.nav.nav--tours
-                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1$limit=10') Quản lý người dùng
-                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1$limit=6') Quản lý sản phẩm
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1&limit=10') Quản lý người dùng
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1&limit=6') Quản lý sản phẩm
                 a.nav__el(href='http://localhost:4000/user/admin/quan-ly-danh-muc?page=1$limit=10') Quản lý danh mục
                 
             .header__logo
@@ -24,28 +24,43 @@ html
             nav.nav.nav--user
                 if user
                     a.nav__el.nav__el--logout Log Out
-                    a.nav__el(href=`/user/${user.id}`)
-                        img.nav__user-img(src=`http://localhost:4000/${user.photoUrl.slice(11).replaceAll("\\", "/")}` alt='User photo')
-                        span= user.name.split(' ')[0]
+                    .nav__el
+                        img.nav__user-img(src=`http://localhost:4000/imgs/admin.jpg` alt='User photo')
+                        span ADMIN
                 else
                     a.nav__el.nav__el-cta(href='#') Đăng kí
                     a.nav__el.nav__el-cta(href='/auth/login') Đăng nhập
 
         // content
         block content 
-            .main__admin
-                .welcome__admin 
-                    h1 WELCOME TO ADMIN PAGE!
-        
+            .main__me
+                .login-form
+                    h2.heading-secondary.ma-bt-lg Thông tin danh mục
+                    form( action=``).form.form--login
+                        .form__group
+                            label.form__label(for='email') Tên danh mục
+                            input.form__input(value=`${cate.name}`,  required, name="name", readonly)
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') slug
+                            input.form__input(value=`${cate.slug}`,  required, name="quantity", readonly)
+                        
+                        
+                        .form__group
+                            .form__button_wrapper
+                                button(type='button', onclick='update()').btn.btn--green Cập nhật
+                                button(type='button', onclick='delete()').btn.btn--green Xóa
+                                button(type='button', onclick='back()').btn.btn--green Quay lại
+
+            script.
+                function back(){
+                    history.back()
+                }
         // footer
         include _footer
 
         //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js')
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous")
         script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js')
-  
-        //- script(src='/js/mapbox.js')
-        //- - script(src='../utils/login.js')
 
 
         

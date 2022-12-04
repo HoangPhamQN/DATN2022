@@ -15,8 +15,8 @@ html
         // header
         header.header
             nav.nav.nav--tours
-                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1$limit=10') Quản lý người dùng
-                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1$limit=6') Quản lý sản phẩm
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1&limit=10') Quản lý người dùng
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1&limit=6') Quản lý sản phẩm
                 a.nav__el(href='http://localhost:4000/user/admin/quan-ly-danh-muc?page=1$limit=10') Quản lý danh mục
                 
             .header__logo
@@ -24,7 +24,7 @@ html
             nav.nav.nav--user
                 if user
                     a.nav__el.nav__el--logout Log Out
-                    a.nav__el(href=`/user/${user.id}`)
+                    .nav__el
                         img.nav__user-img(src=`http://localhost:4000/${user.photoUrl.slice(11).replaceAll("\\", "/")}` alt='User photo')
                         span= user.name.split(' ')[0]
                 else
@@ -33,10 +33,26 @@ html
 
         // content
         block content 
-            .main__admin
-                .welcome__admin 
-                    h1 WELCOME TO ADMIN PAGE!
-        
+            .main__me
+                .me__data
+                    h1 DANH SÁCH DANH MỤC
+                    each cate, index in categories 
+                        .don-mua
+                            .don__mua_span #{index +1}
+                            a.don__mua__link(href=`http://localhost:4000/user/admin/chi-tiet-danh-muc/${cate._id}`) #{cate.name}
+                            a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-danh-muc/${cate._id}`) Chi tiết
+            nav(aria-label='Page navigation example').paginate
+                    ul.pagination.justify-content-center
+                        li.page-item.disabled
+                            a.page-link Previous
+                        li.page-item
+                            a.page-link(href='?page=1&limit=10') 1
+                        li.page-item
+                            a.page-link(href='?page=2&limit=10') 2
+                        li.page-item
+                            a.page-link(href='?page=3&limit=10') 3
+                        li.page-item
+                            a.page-link(href='#') Next
         // footer
         include _footer
 

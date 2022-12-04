@@ -1,5 +1,5 @@
 const catchAsync = require("../utils/catchAsync");
-const { UserService, UserContractService, MerchaindiseService } = require("../services");
+const { UserService, UserContractService, MerchaindiseService, CategoryService } = require("../services");
 const AppError = require("../utils/AppError");
 const { User } = require("../models");
 const { getCategoryName } = require('../utils/category')
@@ -71,10 +71,72 @@ const getDetailMerchaindise = catchAsync(async (req, res, next) => {
     const merchaindise = await MerchaindiseService.getDetail(req.params.id);
     res.render('my-merchaindise', { merchaindise, medicals, supplies, me })
 })
+
+const getAdminpage = catchAsync(async (req, res, next) => {
+    res.render('admin');
+})
+
+const listUser = catchAsync(async (req, res, next) => {
+    const listUser = await UserService.listUser(req.query);
+    res.render('manage-user', { listUser })
+})
+
+const getUserById = catchAsync(async (req, res, next) => {
+    const userDetail = await UserService.getUserById(req.params.id);
+    if (!userDetail) {
+        res.status(404).render('error');
+    }
+    else {
+        res.render('user-detail', { userDetail });
+    }
+})
+
+const manageMerchaindise = catchAsync(async (req, res, next) => {
+    const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
+    if (!merchaindises) {
+        res.status(404).render('error');
+    } else {
+        res.render('manage-merchaindises', { merchaindises })
+    }
+})
+
+const getMerchaindiseById = catchAsync(async (req, res, next) => {
+    const merchaindise = await MerchaindiseService.getDetail(req.params.id);
+    if (!merchaindise) {
+        res.status(404).render('error');
+    } else {
+        res.render('merchaindise-detail', { merchaindise });
+    }
+})
+
+const manageCategory = catchAsync(async (req, res, next) => {
+    const categories = await CategoryService.manageCategory(req.query);
+    if (!categories) {
+        res.status(404).render('error');
+    } else {
+        res.render('manage-category', { categories })
+    }
+})
+
+const getCateById = catchAsync(async (req, res, next) => {
+    const cate = await CategoryService.getDetailCate(req.params.id);
+    if (!cate) {
+        res.status(404).render('error');
+    } else {
+        res.render('category-detail', { cate })
+    }
+})
 module.exports = {
     getMe,
     boughtOrder,
     soldOrder,
     noti,
-    getMerchaindiseByOwner, getDetailMerchaindise
+    getMerchaindiseByOwner, getDetailMerchaindise,
+    getAdminpage,
+    listUser,
+    getUserById,
+    manageMerchaindise,
+    getMerchaindiseById,
+    manageCategory,
+    getCateById
 }

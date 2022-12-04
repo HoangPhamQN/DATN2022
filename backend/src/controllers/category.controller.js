@@ -38,8 +38,18 @@ const getSubCategoryMerchaindise = catchAsync(async (req, res, next) => {
     }
 })
 
+const manageCategory = catchAsync(async (req, res, next) => {
+    const categories = await CategoryService.manageCategory();
+    if (!categories) {
+        res.status(404).render('error');
+    } else {
+        res.render('manage-category', categories)
+    }
+})
+
 module.exports = {
     getAllCategory,
     getSubCate,
-    getSubCategoryMerchaindise
+    getSubCategoryMerchaindise,
+    manageCategory
 }

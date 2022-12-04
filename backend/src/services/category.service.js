@@ -27,8 +27,23 @@ const getSubCateMerchaindise = async (id) => {
     return merchaindises
 }
 
+const manageCategory = async (queryString) => {
+    queryObj = { ...queryString }
+    const page = queryObj.page * 1 || 1;
+    const limit = queryObj.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    const cates = await Category.find({ parent: { $ne: null } }).skip(skip).limit(limit)
+    return cates
+}
+
+const getDetailCate = async (id) => {
+    return await Category.findById(id)
+}
+
 module.exports = {
     getAllCategory,
     getSubCate,
-    getSubCateMerchaindise
+    getSubCateMerchaindise,
+    manageCategory,
+    getDetailCate
 }
