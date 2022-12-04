@@ -54,7 +54,7 @@ block content
             let userId = document.getElementById('buyer-id').value;
             await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
             window.alert('Bạn đã hủy đơn hàng thành công!');
-            window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
+            window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
         }
 
         async function confirmGiven(){
@@ -63,6 +63,6 @@ block content
             if(response.status == 200){
                 let userId = document.getElementById('buyer-id').value;
                 window.alert('Cảm ơn bạn đã xác nhận khi nhận được hàng!');
-                window.location.href=`http://localhost:4000/user/${userId}/don-hang-cua-ban`;
+                window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
             }
         }

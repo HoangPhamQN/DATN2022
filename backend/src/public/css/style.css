@@ -32,7 +32,7 @@ body {
     font-weight: 300;
     font-family: 'Lato', sans-serif;
     color: #777;
-    padding: 3rem;
+    padding: 0 3rem;
     min-height: 100vh;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -41,15 +41,27 @@ body {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+    /* padding-top: 30px !important; */
 }
 
-.main {
+main {
     background-color: #f7f7f7;
     padding: 8rem 6rem;
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
     position: relative;
+    min-height: calc(100vh - 80px - 160px);
+}
+
+.main__admin {
+    background-color: #f7f7f7;
+    padding: 8rem 6rem;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    position: relative;
+    min-height: calc(100vh - 80px - 160px);
 }
 
 .flex {
@@ -1481,10 +1493,10 @@ body {
 .main__me {
     display: flex;
     flex-direction: row;
-    height: 450px;
     position: relative;
     width: 100%;
     margin-bottom: 50px;
+    min-height: calc(100vh - 80px - 160px);
 }
 
 .me__link {
@@ -1520,8 +1532,6 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    border: 1px solid black;
-    border-radius: 5px;
     padding: 20px
 }
 
@@ -1545,15 +1555,26 @@ body {
     width: 100%;
     font-size: large;
     font-weight: 500;
+    justify-content: left;
+    margin-bottom: 5px;
 }
 
 .don__mua__link {
-    margin-left: 20px;
     text-decoration: none;
+    text-align: left;
+    width: 35%;
 }
 
 .don__mua_span {
-    width: 10px;
+    width: 50px;
+}
+
+.don__mua__status {
+    border: 1px solid black;
+    background-color: rgb(236, 219, 219);
+    border-radius: 5px;
+    width: 160px;
+    text-align: center;
 }
 
 .me__nav {
@@ -1581,4 +1602,58 @@ body {
 
 #nav-contact {
     padding-top: 20px;
+}
+
+#nav-posts {
+    padding-top: 20px;
+}
+
+#nav-posts.tab-pane {
+    display: flex;
+    flex-direction: row;
+}
+
+.me__nav {
+    flex-grow: 9;
+}
+
+.me__button {
+    flex-grow: 1;
+}
+
+.my__posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-secondary {
+    width: 100px !important;
+    margin: 10px 0 10px;
+}
+
+.transaction .input-group-text {
+    width: 150px !important;
+}
+
+.transaction .input-group .form-control {
+    flex: 1;
+}
+
+.transaction button {
+    display: inline-block !important;
+    margin-right: 20px !important;
+    transition: 0.2s;
+}
+
+.transaction__wrapper .transaction {
+    max-width: 600px;
+    margin: auto;
+}
+
+.input-group * {
+    font-size: 16px !important;
+}
+
+.btn-back__wrapper {
+    text-align: right;
 }

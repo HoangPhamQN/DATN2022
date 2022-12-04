@@ -2,21 +2,23 @@ extends base
 
 block content
     main
-        .transaction
-            .input-group.mb-3
-                span#inputGroup-sizing-default.input-group-text Người gửi
-                input.form-control(type='text', id="from-address", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${fromAddress}`)
-            .input-group.mb-3
-                span#inputGroup-sizing-default.input-group-text Người nhận
-                input.form-control(type='text', id="to-address", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${toAddress}`)
-            .input-group.mb-3
-                span#inputGroup-sizing-default.input-group-text Số ETH
-                input.form-control(type='text', id="total-eth", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${totalETH}`)
-            input(type="hidden", id="abi", value=`${abi}`)
-            input(type="hidden", id="address", value=`${address}`)
-            input(type="hidden", id="user-id", value=`${userId}`)
-            button.btn.btn-primary.btn-lg(type='button', onclick="show()") Giao dịch
-            button.btn.btn-primary.btn-lg(type='button', onclick="cancel()") Hủy giao dịch
+        .transaction__wrapper
+            .transaction
+                .input-group.mb-3
+                    span#inputGroup-sizing-default.input-group-text Người gửi
+                    input.form-control(type='text', id="from-address", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${fromAddress}`)
+                .input-group.mb-3
+                    span#inputGroup-sizing-default.input-group-text Người nhận
+                    input.form-control(type='text', id="to-address", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${toAddress}`)
+                .input-group.mb-3
+                    span#inputGroup-sizing-default.input-group-text Số ETH
+                    input.form-control(type='text', id="total-eth", aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${totalETH}`)
+                input(type="hidden", id="abi", value=`${abi}`)
+                input(type="hidden", id="address", value=`${address}`)
+                input(type="hidden", id="user-id", value=`${userId}`)
+                .transaction__button
+                    button.btn.btn-primary.btn-lg(type='button', onclick="show()") Giao dịch
+                    button.btn.btn-primary.btn-lg(type='button', onclick="cancel()") Hủy giao dịch
             
     script.
         async function show(){

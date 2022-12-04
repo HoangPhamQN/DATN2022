@@ -43,6 +43,26 @@ const getContractByUser = catchAsync(async (req, res, next) => {
     });
 })
 
+const getContractBySeller = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = await UserService.getMe(req.params.id);
+    let orderResult = []
+    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id);
+    for (ele of contractsBySeller) {
+        let abi = ele['abi'];
+        let address = ele['contractAddress'];
+        let contract = await new web3.eth.Contract(abi, address);
+        let orderInfo = await contract.methods.getOrder().call();
+        orderResult.push(orderInfo);
+    }
+    if (!contractsBySeller) {
+        res.status(404).render('error')
+    }
+    res.render('sold-order', {
+        orderResult, me, medicals, supplies
+    });
+})
+
 const getContractDetail = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName();
     const me = req.user;
@@ -93,11 +113,13 @@ const confirmGivenMerchaindise = catchAsync(async (req, res, next) => {
     });
 })
 
+
 module.exports = {
     getAbiByContractAddress,
     deleteUserContractByAddress,
     getContractByUser,
     getContractDetail,
     getSoldContractDetail,
-    confirmGivenMerchaindise
+    confirmGivenMerchaindise,
+    getContractBySeller
 }

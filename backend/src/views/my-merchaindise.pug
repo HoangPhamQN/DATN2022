@@ -1,0 +1,23 @@
+extend base
+
+block content 
+    merchaindise
+            .login-form
+                    h2.heading-secondary.ma-bt-lg Thông tin sản phẩm
+                    form( action=`/payment/${merchaindise.id}` method="post").form.form--login
+                        .form__group
+                            label.form__label(for='email') Tên sản phẩm
+                            input#email.form__input(value=`${merchaindise.name}`,  required, name="name")
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Số lượng
+                            input#password.form__input( required, name="quantity", value=`${merchaindise.quantity}`)
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Đơn giá
+                            input#password.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice")
+                        //- .form__group 
+                        //-     input(type="hidden", name="previous_url" value=`${url}`)
+                        .form__group 
+                            input(type="hidden", name="slug" value=`${merchaindise.slug}`)
+                        .form__group
+                            button(type='submit').btn.btn--green Cập nhật
+                            button(type='submit').btn.btn--green Quay lại

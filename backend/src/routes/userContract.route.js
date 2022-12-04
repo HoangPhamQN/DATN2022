@@ -8,4 +8,5 @@ router.route("/don-mua/:address").get(AuthController.protect, UserContractContro
 router.route("/don-ban/:address").get(AuthController.protect, UserContractController.getSoldContractDetail);
 router.route("/xac-nhan/:address").post(AuthController.protect, UserContractController.confirmGivenMerchaindise);
 
+
 module.exports = router

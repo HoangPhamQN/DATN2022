@@ -150,6 +150,11 @@ const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
     });
 })
 
+const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
+    const result = await MerchaindiseService.getMerchaindiseByOwner(req.params.id);
+    res.json({ result })
+})
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
@@ -157,5 +162,6 @@ module.exports = {
     createMerchaindise,
     updateMerchaindise,
     getMedicalSupplies,
-    getMerchaindiseByCategory
+    getMerchaindiseByCategory,
+    getMerchaindiseByOwner
 }

@@ -66,6 +66,10 @@ const getMerchaindiseByCategory = async (slug) => {
     return result
 }
 
+const getMerchaindiseByOwner = async (id) => {
+    return await Merchaindise.find({ owner: id });
+}
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
@@ -73,5 +77,6 @@ module.exports = {
     createMerchaindise,
     updateMerchaindise,
     getMedicalSupplies,
-    getMerchaindiseByCategory
+    getMerchaindiseByCategory,
+    getMerchaindiseByOwner
 }
