@@ -45,6 +45,8 @@ html
                             else 
                                 .don__mua__status Unlocked 
                             a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) Chi tiết
+                            if user.role == "6350b3325bc8d1ddf91786cb"
+                                .don__mua__status Cấp quyền seller
             nav(aria-label='Page navigation example').paginate
                     ul.pagination.justify-content-center
                         li.page-item.disabled

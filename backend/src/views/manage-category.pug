@@ -35,7 +35,9 @@ html
         block content 
             .main__me
                 .me__data
-                    h1 DANH SÁCH DANH MỤC
+                    .btn-back__manage__merchaindise
+                        h1 DANH SÁCH DANH MỤC
+                        button.btn.btn-secondary(onclick='back()') Thêm danh mục
                     each cate, index in categories 
                         .don-mua
                             .don__mua_span #{index +1}

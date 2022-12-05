@@ -4,7 +4,7 @@ block content
     main.main
         merchaindise
             .login-form
-                h2.heading-secondary.ma-bt-lg Thông tin đơn hàng
+                h2.heading-secondary.ma-bt-lg Đặt hàng
                 form( action=`/payment/${merchaindise.id}` method="post").form.form--login
                     .form__group
                         label.form__label(for='email') Tên sản phẩm
@@ -20,5 +20,5 @@ block content
                     .form__group 
                         input(type="hidden", name="slug" value=`${merchaindise.slug}`)
                     .form__group
-                        button(type='submit').btn.btn--green Thanh toán
+                        button(type='submit').btn.btn--green Mua ngay
                         

@@ -22,7 +22,7 @@
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 66%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
@@ -1685,4 +1685,9 @@ main {
 a.don__mua__status {
     color: black;
     margin-left: 20px;
+    margin-right: 20px;
+}
+
+.don__mua__status:hover {
+    background-color: #28b487;
 }

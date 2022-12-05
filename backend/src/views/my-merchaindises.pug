@@ -6,8 +6,9 @@ block content
       h1(style="margin:auto") BẠN CHƯA CÓ BÀI ĐĂNG NÀO!
       button.btn.btn-secondary(onclick='back()') Quay lại
     else 
-      .btn-back__wrapper
-            button.btn.btn-secondary(onclick='back()') Quay lại
+      .btn-back__manage__merchaindise
+        h1 DANH SÁCH SẢN PHẨM
+        button.btn.btn-secondary(onclick='back()') Quay lại
       .card-container
       
         each merchaindise in merchaindises

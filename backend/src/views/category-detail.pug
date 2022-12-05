@@ -35,20 +35,24 @@ html
         block content 
             .main__me
                 .login-form
-                    h2.heading-secondary.ma-bt-lg Thông tin danh mục
+                    h2.heading-secondary.ma-bt-lg Thêm danh mục
                     form( action=``).form.form--login
                         .form__group
                             label.form__label(for='email') Tên danh mục
-                            input.form__input(value=`${cate.name}`,  required, name="name", readonly)
-                        .form__group.ma-bt-md
-                            label.form__label(for='password') slug
-                            input.form__input(value=`${cate.slug}`,  required, name="quantity", readonly)
+                            input.form__input(value=``,  required, name="name", readonly, placeholder='Nhập tên danh mục...')
+                        //- .form__group.ma-bt-md
+                        //-     label.form__label(for='password') Slug
+                        //-     input.form__input(value=`${cate.slug}`,  required, name="quantity", readonly)
+                        .from__group 
+                            select.form__input#cars(name='cars', form='carform', style="margin-bottom: 50px")
+                                option(value='volvo') Thuốc
+                                option(value='saab') Vật tư y tế
                         
                         
                         .form__group
                             .form__button_wrapper
-                                button(type='button', onclick='update()').btn.btn--green Cập nhật
-                                button(type='button', onclick='delete()').btn.btn--green Xóa
+                                //- button(type='button', onclick='update()').btn.btn--green Cập nhật
+                                button(type='button', onclick='delete()').btn.btn--green Thêm
                                 button(type='button', onclick='back()').btn.btn--green Quay lại
 
             script.

@@ -24,8 +24,10 @@ contract Contract_${totalContract} {
     }
     enum order_status {
         NEW,
+        PROCESSING,
         DELIVERIED,
-        CANCELLED
+        CANCELLED,
+        COMPLETED
     }
     address public buyerAddress = ${buyerAddress};
     address public sellerAddress = ${sellerAddress};

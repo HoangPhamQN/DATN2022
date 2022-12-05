@@ -26,10 +26,12 @@ block content
                         else
                             input.form__input( value='Cancelled', required, id="status", readonly)
                     
-                    .form__group
-                        button(type='button', onclick='confirmGiven()').btn.btn--green Đã nhận được hàng
-                    .form__group
-                        button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
+                    
+                    if orderInfo.status == '0'
+                        .form__group
+                            button(type='button', onclick='confirmGiven()').btn.btn--green Đã nhận được hàng
+                            button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
+                            button(type='button', onclick='back()').btn.btn--green Quay lại
                     input(type="hidden", id="address", value=`${address}`)
                     input(type="hidden", id="buyer-id", value=`${me.id}`)
                     input(type="hidden", id="buyer-address", value=`${me.walletAddress}`)

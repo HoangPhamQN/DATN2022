@@ -17,8 +17,21 @@ block content
                             .don__mua__status Đã hoàn thành  
                         else 
                             .don__mua__status Chưa hoàn thành
+                        a.don__mua__status(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) Chi tiết
         .btn-back__wrapper
             button.btn.btn-secondary(onclick='back()') Quay lại
+    nav(aria-label='Page navigation example').paginate
+                    ul.pagination.justify-content-center
+                        li.page-item.disabled
+                            a.page-link Previous
+                        li.page-item
+                            a.page-link(href='?page=1&limit=10') 1
+                        li.page-item
+                            a.page-link(href='?page=2&limit=10') 2
+                        li.page-item
+                            a.page-link(href='?page=3&limit=10') 3
+                        li.page-item
+                            a.page-link(href='#') Next
     script.
         function back(){
         history.back()

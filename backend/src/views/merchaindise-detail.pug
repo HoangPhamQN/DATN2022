@@ -60,6 +60,12 @@ html
                 function back(){
                     history.back()
                 }
+
+                function lock(){
+                    if (confirm("Bạn chắc chắn muốn xóa sản phẩm này?") == true) {
+                        window.alert('Xóa sản phẩm thành công!')
+                        }
+                }
         // footer
         include _footer
 
