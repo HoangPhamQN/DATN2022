@@ -13,10 +13,14 @@ block content
                         //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
                         .don__mua_span #{index +1}
                         a.don__mua__link(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
-                        if order.status == 1
-                            .don__mua__status Đã hoàn thành  
-                        else 
-                            .don__mua__status Chưa hoàn thành
+                        if order.status == 0
+                            .don__mua__status New  
+                        else if order.status == 1
+                            .don__mua__status Processing
+                        else if order.status == 2
+                            .don__mua__status Deliveried
+                        else if order.status == 4
+                            .don__mua__status Completed
                         a.don__mua__status(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) Chi tiết
         .btn-back__wrapper
             button.btn.btn-secondary(onclick='back()') Quay lại

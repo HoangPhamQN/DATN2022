@@ -105,7 +105,7 @@ const confirmGivenMerchaindise = catchAsync(async (req, res, next) => {
     let address = contractDetail['contractAddress'];
     let contract = await new web3.eth.Contract(abi, address);
     let orderInfo = await contract.methods.getOrder().call();
-    await contract.methods.changeStatus('1').send({ from: orderInfo['buyer'] });
+    await contract.methods.changeStatus('2').send({ from: orderInfo['buyer'] });
     orderInfo = await contract.methods.getOrder().call();
     console.log(22222222, orderInfo['dueDate']);
     res.status(200).json({
@@ -129,6 +129,21 @@ const confirmCompleted = catchAsync(async (req, res, next) => {
     });
 })
 
+const confirmBySeller = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = await UserService.getMe(req.user.id);
+    const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
+    let abi = contractDetail['abi'];
+    let address = contractDetail['contractAddress'];
+    let contract = await new web3.eth.Contract(abi, address);
+    let orderInfo = await contract.methods.getOrder().call();
+    await contract.methods.changeStatus('1').send({ from: orderInfo['buyer'] });
+    orderInfo = await contract.methods.getOrder().call();
+    console.log(22222222, orderInfo['dueDate']);
+    res.status(200).json({
+        success: true
+    });
+})
 
 module.exports = {
     getAbiByContractAddress,
@@ -138,5 +153,6 @@ module.exports = {
     getSoldContractDetail,
     confirmGivenMerchaindise,
     getContractBySeller,
-    confirmCompleted
+    confirmCompleted,
+    confirmBySeller
 }

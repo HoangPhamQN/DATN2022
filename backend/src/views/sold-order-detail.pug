@@ -28,11 +28,15 @@ block content
                     
                     if orderInfo.status == '1'
                         .form__group
-                            button(type='button', onclick='withDraw()').btn.btn--green Rút tiền
                             button(type='button', onclick='back()').btn.btn--green Quay lại
-                    else 
+                    else if orderInfo.status == '0'
                         .form__group
                             button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
+                            button(type='button', onclick='confirm()').btn.btn--green Xác nhận
+                            button(type='button', onclick='back()').btn.btn--green Quay lại
+                    else if orderInfo.status == '2'
+                        .form__group
+                            button(type='button', onclick='withDraw()').btn.btn--green Rút tiền
                             button(type='button', onclick='back()').btn.btn--green Quay lại
                     input(type="hidden", id="address", value=`${address}`)
                     input(type="hidden", id="dueDate", value=`${orderInfo.dueDate}`)
@@ -116,4 +120,13 @@ block content
                         window.location.href=`http://localhost:4000/user/${userId}/`;
                     } 
                 });
+        }
+
+        async function confirm(){
+            let orderAddress = document.getElementById('address').value;
+            let response = await fetch(`http://localhost:4000/user-contract/xac-nhan-boi-nguoi-ban/${orderAddress}`, {method: "POST"});
+            if(response.status == 200){
+                window.alert('Bạn đã xác nhận đơn hàng!');
+                history.back()
+            }
         }
