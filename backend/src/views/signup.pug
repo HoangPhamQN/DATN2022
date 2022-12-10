@@ -1,0 +1,42 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Đăng ký tài khoản
+            form( action="/auth/signup" method="post" enctype="multipart/form-data").form.form--login
+                .form__group
+                    label.form__label(for='email') Email
+                    input#email.form__input(type='email', placeholder='you@example.com', required, name="email")
+                .form__group
+                    label.form__label(for='name') Tên
+                    input.form__input(placeholder='your name...', required, name="name")
+                .form__group
+                    label.form__label(for='phoneNumber') Số điện thoại
+                    input.form__input( placeholder='your phone...', required, name="phoneNumber")
+                .form__group
+                    label.form__label(for='address') Địa chỉ
+                    input.form__input( placeholder='your address...', required, name="address")
+                .form__group
+                    label.form__label(for='walletAddress') Địa chỉ ví
+                    input.form__input(placeholder='your wallet address...', required, name="walletAddress")
+                .form__group.ma-bt-md
+                    label.form__label(for='password') Mật khẩu
+                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8', name="password")
+                .form__group.ma-bt-md
+                    label.form__label(for='confirmPassword') Nhập lại mật khẩu
+                    input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8', onchange="validConfirmPass()")
+                .form__group
+                    label.form__label(for='photoUrl') Chọn ảnh đại diện
+                    input#photoUrl.form__input(type='file', required, name="photoUrl")
+                .form__group
+                    button(type='submit').btn.btn--green Đăng ký
+    script.
+        function validConfirmPass(){
+            let pass = document.getElementById('password').value;
+            let passConfirm = document.getElementById('passwordConfirm').value;
+            if(pass != passConfirm){
+                window.alert("Mật khẩu không khớp, vui lòng kiểm tra lại!")
+            }
+        }
+                        

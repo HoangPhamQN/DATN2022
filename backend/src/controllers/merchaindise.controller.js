@@ -50,9 +50,8 @@ const deleteMerchaindise = catchAsync(async (req, res, next) => {
 });
 
 const createMerchaindise = catchAsync(async (req, res, next) => {
-    console.log(222222);
     if (!req.files.image1 || !req.files.image2 || !req.files.image3 || !req.files.image4) {
-        return next(new ApiError('Vui lòng chọn ảnh cho mặt hàng!', 400));
+        return next(new AppError('Vui lòng chọn ảnh cho mặt hàng!', 400));
     }
     const image1Path = req.files.image1[0].path;
     const image2Path = req.files.image2[0].path;

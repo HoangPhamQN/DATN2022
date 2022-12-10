@@ -1691,3 +1691,21 @@ a.don__mua__status {
 .don__mua__status:hover {
     background-color: #28b487;
 }
+
+a.login_btn {
+    text-decoration: none;
+    margin-right: 30px;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 5px;
+    width: 100 px;
+    min-height: 30px;
+}
+
+.login_require {
+    text-align: center;
+}
+
+.btn--green:hover {
+    background: #28b487 !important;
+}

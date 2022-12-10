@@ -1,0 +1,11 @@
+extends base
+block content 
+    main 
+        .login_require
+            h1 #{data} đã tồn tại, vui lòng đăng ký tài khoản với một #{data} khác!
+            .form__group
+                button.btn.btn--green(type='button', onclick="signup()") Thử lại
+    script. 
+        function signup(){
+            window.location.href='http://localhost:4000/auth/signup'
+        }

@@ -5,6 +5,8 @@ const { User, Role } = require('../models');
 const AppError = require('../utils/appError');
 
 const catchAsync = require('../utils/catchAsync');
+const { getCategoryName } = require('../utils/category');
+const { AuthService } = require('../services');
 
 const signToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -12,7 +14,7 @@ const signToken = id => {
     });
 };
 
-const createAndSendToken = (user, statusCode, res, previous_url) => {
+const createAndSendToken = (user, statusCode, res) => {
     const token = signToken(user._id);
     const cookieOption = {
         expires: new Date(
@@ -31,61 +33,78 @@ const createAndSendToken = (user, statusCode, res, previous_url) => {
     //     }
     // });
     // res.send('<script>alert("Login successfully!"); window.history.go(-2); </script>');
-    console.log(user.role.toString())
     if (user.role.toString() == "6350b3325bc8d1ddf91786cd") {
         res.redirect('/user/admin')
     }
-    else if (typeof previous_url === "undefined") {
-        res.redirect('/hang-hoa/tat-ca-mat-hang')
-    }
+    // else if (typeof previous_url === "undefined") {
+    //     res.redirect('/hang-hoa/tat-ca-mat-hang')
+    // }
     else {
-        res.redirect(previous_url)
+        res.redirect('/hang-hoa/tat-ca-mat-hang')
     }
 };
 
 const signup = catchAsync(async (req, res, next) => {
-    const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        phoneNumber: req.body.phoneNumber,
-        role: req.body.role,
-        walletAddress: req.body.walletAddress
-    });
-    createAndSendToken(newUser, 201, res);
+    const photoUrl = req.files.photoUrl[0].path;
+    const body = Object.assign(
+        req.body,
+        { photoUrl: photoUrl }
+    );
+    console.log(body.address)
+    const result = await AuthService.signUp(body);
+    let data = result.data;
+    if (data) {
+        res.render('existed-user', { data })
+        return
+    }
+    createAndSendToken(result, 201, res);
 });
 
 const login = catchAsync(async (req, res, next) => {
-    const { email, password, previous_url } = req.body;
+    const { medicals, supplies } = await getCategoryName()
+    const { email, password } = req.body;
     if (!email || !password) {
-        return next(new AppError('Please provide email and password', 400));
+        // return next(new AppError('Please provide email and password', 400));
+        res.render('not-enough-email-pass', { medicals, supplies })
+        return
     }
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-        return next(new AppError('Incorrect email or password!', 401));
+        // return next(new AppError('Incorrect email or password!', 401));
+        res.render('incorrect-login')
+        return
     }
     const correct = await user.correctPassword(password, user.password);
 
     if (!correct) {
-        return next(new AppError('Incorrect email or password!', 401));
+        // return next(new AppError('Incorrect email or password!', 401));
+        res.render('incorrect-login', { medicals, supplies })
+        return
     }
-    createAndSendToken(user, 200, res, previous_url);
+
+    if (user.isBlocked == true) {
+        res.render('locked-user', { medicals, supplies });
+        return
+    }
+
+    if (user.isDeleted == true) {
+        res.render('deleted-user', { medicals, supplies });
+        return
+    }
+    createAndSendToken(user, 200, res);
 });
 
 const logout = catchAsync(async (req, res) => {
-    res.cookie('jwt', 'loggouted', {
-        expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true
-    });
-    res.status(200).json({ status: 'success' });
+    res.clearCookie("jwt");
+    res.redirect("/");
 });
 
 const protect = catchAsync(async (req, res, next) => {
-    const url = req.originalUrl
+    // const url = req.originalUrl
     // 1) get the token and check if it there
     let token;
+    const { medicals, supplies } = await getCategoryName()
 
     if (
         req.headers.authorization &&
@@ -104,7 +123,8 @@ const protect = catchAsync(async (req, res, next) => {
         //     new AppError('You are not login! Please login to get access', 401)
         // );
         // res.send('<script>alert("Vui lòng đăng nhập để truy cập tài nguyên này!"); window.location.href = "/auth/login"; </script>');
-        res.render('login', { url })
+        res.render('login_require', { medicals, supplies })
+        return
     }
     // 2) verification token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -115,11 +135,14 @@ const protect = catchAsync(async (req, res, next) => {
             new AppError('The token belonging to this user does no longer exist', 401)
         );
     }
-    // 4) check if user change password after the JWT was issued
-    if (currentUser.changedPasswordAfter(decoded.iat)) {
-        return next(
-            new AppError('User recently changed password! Please login again!', 401)
-        );
+    if (currentUser.isBlocked == true) {
+        res.render('locked-user', { medicals, supplies });
+        return;
+    }
+
+    if (currentUser.isDeleted == true) {
+        res.render('deleted-user', { medicals, supplies });
+        return
     }
     res.locals.user = currentUser;
     req.user = currentUser;
