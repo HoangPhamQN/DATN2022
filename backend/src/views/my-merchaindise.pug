@@ -1,24 +1,68 @@
 extend base
 
 block content 
-    merchaindise
-            .login-form
-                    h2.heading-secondary.ma-bt-lg Thông tin sản phẩm
-                    form( action=`/payment/${merchaindise.id}` method="post").form.form--login
-                        .form__group
-                            label.form__label(for='email') Tên sản phẩm
-                            input#email.form__input(value=`${merchaindise.name}`,  required, name="name")
-                        .form__group.ma-bt-md
-                            label.form__label(for='password') Số lượng
-                            input#password.form__input( required, name="quantity", value=`${merchaindise.quantity}`)
-                        .form__group.ma-bt-md
-                            label.form__label(for='password') Đơn giá
-                            input#password.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice")
-                        //- .form__group 
-                        //-     input(type="hidden", name="previous_url" value=`${url}`)
-                        .form__group 
-                            input(type="hidden", name="slug" value=`${merchaindise.slug}`)
-                        .form__group
-                            button(type='submit').btn.btn--green Cập nhật
-                            button(type='submit').btn.btn--green Xóa
-                            button(type='submit').btn.btn--green Quay lại
+    main
+        merchaindise
+                .login-form
+                        h2.heading-secondary.ma-bt-lg Thông tin sản phẩm
+                        form.form.form--login
+                            .form__group
+                                label.form__label(for='email') Tên sản phẩm
+                                input#email.form__input(value=`${merchaindise.name}`,  required, name="name", readonly)
+                            .form__group.ma-bt-md
+                                label.form__label(for='password') Số lượng
+                                input#quantity.form__input( required, name="quantity", value=`${merchaindise.quantity}`)
+                            .form__group.ma-bt-md
+                                label.form__label(for='password') Đơn giá
+                                input#unitPrice.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice")
+                            //- .form__group 
+                            //-     input(type="hidden", name="previous_url" value=`${url}`)
+                            .form__group 
+                                input(type="hidden", name="slug" value=`${merchaindise.slug}`)
+                            .form__group 
+                                input#id(type="hidden", name="id" value=`${merchaindise.id}`)
+                            .form__group 
+                                input#user-id(type="hidden", name="user-id" value=`${me.id}`)
+                            .form__group
+                                button.btn.btn--green(type='button', onclick="capnhat()") Cập nhật
+                                button.btn.btn--green(type='button', onclick="xoa()") Xóa
+                                button(type='button', onclick='back()').btn.btn--green Quay lại
+
+    script. 
+        async function xoa(){
+            if (confirm("Bạn chắc chắn muốn xóa sản phẩm này?") == true) {
+                let id = document.getElementById('id').value;
+                let userId = document.getElementById('user-id').value;
+                await fetch(`http://localhost:4000/hang-hoa/delete/${id}`, {method: "PATCH"});
+                window.alert('Xóa sản phẩm thành công!');
+                window.location.href = `http://localhost:4000/user/${userId}`
+            }
+        }
+
+        async function capnhat(){
+            let id = document.getElementById('id').value;
+            let userId = document.getElementById('user-id').value;
+            let quantity = document.getElementById('quantity').value;
+            let unitPrice = document.getElementById('unitPrice').value;
+            let data = {quantity: quantity, unitPrice: unitPrice};
+            let response = await fetch(`http://localhost:4000/hang-hoa/update/${id}`, {
+                method: "PATCH", 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+                });
+            console.log(response.status)
+            if(response.status == 200){
+                window.alert('Cập nhật sản phẩm thành công!');
+                window.location.href = `http://localhost:4000/user/san-pham/${id}`
+            } else {
+                window.alert('Cập nhật sản phẩm thất bại, vui lòng thử lại sau!');
+                window.location.href = `http://localhost:4000/user/${userId}/tat-ca-bai-dang`
+            }
+        }
+
+        function back(){
+            let userId = document.getElementById('user-id').value;
+            window.location.href = `http://localhost:4000/user/${userId}/tat-ca-bai-dang`
+        }

@@ -1,1 +1,1 @@
-module.exports = ['dozen', 'box', 'unit']
+module.exports = ['Tá', 'Hộp', 'Chiếc']

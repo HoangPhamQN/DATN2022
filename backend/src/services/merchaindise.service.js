@@ -11,13 +11,15 @@ const getAllMerchaindise = async (queryString) => {
 }
 
 const getDetail = async (id) => {
-    const merchaindise = await Merchaindise.findById(id).populate("owner category")
+    const merchaindise = await Merchaindise.findById(id).populate("owner category").find({ isDeleted: false })
     return merchaindise
 }
 
 const deleteMerchaindise = async (id) => {
-    const rs = await Merchaindise.deleteOne({ _id: id });
-    return rs.deletedCount;
+    const updatedMerchaindise = await Merchaindise.findByIdAndUpdate(id, { isDeleted: true }, {
+        new: true,
+    })
+    return updatedMerchaindise;
 };
 
 const createMerchaindise = async (body) => {
@@ -67,7 +69,7 @@ const getMerchaindiseByCategory = async (slug) => {
 }
 
 const getMerchaindiseByOwner = async (id) => {
-    return await Merchaindise.find({ owner: id });
+    return await Merchaindise.find({ owner: id, isDeleted: false }).sort('-createdAt');
 }
 
 module.exports = {

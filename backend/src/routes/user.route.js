@@ -1,9 +1,10 @@
 const express = require("express");
 
-const { UserController, AuthController, UserContractController } = require("../controllers");
+const { UserController, AuthController, UserContractController, ViewController } = require("../controllers");
 const upload = require('../middlewares/upload');
 
 const router = express.Router();
+router.route("/:id/dang-bai").get(AuthController.protect, ViewController.getCreateMerchaindiseForm);
 router.route("/admin").get(AuthController.protect, UserController.getAdminpage);
 router.route("/admin/quan-ly-nguoi-dung").get(AuthController.protect, UserController.listUser);
 router.route("/admin/quan-ly-san-pham").get(AuthController.protect, UserController.manageMerchaindise);

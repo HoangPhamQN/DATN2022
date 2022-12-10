@@ -10,17 +10,6 @@ block content
                 //- button#nav-contact-tab.nav-link(data-bs-toggle='tab', data-bs-target='#nav-dang-bai', type='button', role='tab', aria-controls='nav-dang-bai', aria-selected='false') Đăng bài
             #nav-tabContent.tab-content
                 #nav-home.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='nav-home-tab', tabindex='0')
-                    //- form
-                    //-     .mb-3
-                    //-         label.form-label(for='name' style="font-weight:bold; text-transform: uppercase;") Tên người dùng
-                    //-         input(value=`${me.name}` style="font-size:large")#name.form-control()
-                    //-     .mb-3
-                    //-         label.form-label(for='email' style="font-weight:bold; text-transform: uppercase;") Địa chỉ email
-                    //-         input(value=`${me.email}` style="font-size:large")#email.form-control()
-                    //-     .mb-3
-                    //-         label.form-label(for='phone' style="font-weight:bold; text-transform: uppercase;") Số điện thoại
-                    //-         input(value=`${me.phoneNumber}` style="font-size:large")#phone.form-control()
-                    //-     button.btn.btn-primary(type='submit' style="font-size:large") Cập nhật thông tin
                     
                     form( action=`http://localhost:4000/user-contract/xac-nhan/${address}` method="patch").form.form--login
                         .form__group
@@ -38,28 +27,7 @@ block content
                         
                         button(type='submit').btn.btn--green Cập nhật thông tin
 
-                //- #nav-profile.tab-pane.fade(role='tabpanel', aria-labelledby='nav-profile-tab', tabindex='0')
-                //-     if orderResult.length == 0
-                //-         .no__order HIỆN TẠI BẠN CHƯA CÓ ĐƠN MUA NÀO!
-                //-     else
-                //-         h1 DANH SÁCH ĐƠN MUA CỦA BẠN
-                //-         each order, index in orderResult
-                //-             .don-mua
-                //-                 //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
-                //-                 span.don__mua_span #{index +1}
-                //-                 a.don__mua__link(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
-                //- #nav-contact.tab-pane.fade(role='tabpanel', aria-labelledby='nav-contact-tab', tabindex='0')
-                //-     if orderWithRoleSeller.length == 0
-                //-         .no__order HIỆN TẠI BẠN CHƯA CÓ ĐƠN BÁN NÀO!
-                //-     else
-                //-         h1 DANH SÁCH ĐƠN BÁN CỦA BẠN
-                //-         each order, index in orderWithRoleSeller
-                //-             .don-mua
-                //-                 //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
-                //-                 span.don__mua_span #{index +1}
-                //-                 a.don__mua__link(href=`http://localhost:4000/user-contract/don-ban/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
                 
-                //- #nav-dang-bai.tab-pane.fade(role='tabpanel', aria-labelledby='nav-dang-bai-tab', tabindex='0') Đăng bài
         .me__button
             .my__posts
                 a(href=`http://localhost:4000/user/${me.id}/don-mua`)
@@ -70,5 +38,8 @@ block content
                 if me.role == "6350b3325bc8d1ddf91786cc"
                     a(href=`http://localhost:4000/user/${me.id}/tat-ca-bai-dang`)
                         button.btn.btn-secondary Sản phẩm
+                if me.role == "6350b3325bc8d1ddf91786cc"
+                    a(href=`http://localhost:4000/user/${me.id}/dang-bai`)
+                        button.btn.btn-secondary Đăng bài
                 a(href='http://localhost:4000/hang-hoa/tat-ca-mat-hang')
                     button.btn.btn-secondary Trang chủ

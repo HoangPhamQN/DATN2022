@@ -40,10 +40,15 @@ const getDetailCate = async (id) => {
     return await Category.findById(id)
 }
 
+const getAllSubCate = async () => {
+    return await Category.find({ parent: { $ne: null } })
+}
+
 module.exports = {
     getAllCategory,
     getSubCate,
     getSubCateMerchaindise,
     manageCategory,
-    getDetailCate
+    getDetailCate,
+    getAllSubCate
 }

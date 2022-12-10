@@ -1,4 +1,6 @@
+const { CategoryService } = require('../services');
 const { getCategoryName } = require('../utils/category')
+const units = require('../configs/unit')
 const getLoginForm = async (req, res) => {
     const { medicals, supplies } = await getCategoryName()
     res.status(200).render('login', {
@@ -17,7 +19,19 @@ const getSignUpForm = async (req, res) => {
     });
 };
 
+const getCreateMerchaindiseForm = async (req, res) => {
+    const { medicals, supplies } = await getCategoryName();
+    const categories = await CategoryService.getAllSubCate();
+    res.status(200).render('merchaindise-create', {
+        medicals,
+        supplies,
+        categories,
+        units
+    })
+}
+
 module.exports = {
     getLoginForm,
-    getSignUpForm
+    getSignUpForm,
+    getCreateMerchaindiseForm
 }

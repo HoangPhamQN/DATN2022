@@ -67,9 +67,14 @@ const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
 
 const getDetailMerchaindise = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
-    const me = await UserService.getMe(req.params.id)
-    const merchaindise = await MerchaindiseService.getDetail(req.params.id);
-    res.render('my-merchaindise', { merchaindise, medicals, supplies, me })
+    const me = await UserService.getMe(req.user.id)
+    let merchaindise = await MerchaindiseService.getDetail(req.params.id);
+    if (merchaindise.length == 0) {
+        res.status(404).render('error');
+    } else {
+        merchaindise = merchaindise[0]
+        res.render('my-merchaindise', { merchaindise, medicals, supplies, me })
+    }
 })
 
 const getAdminpage = catchAsync(async (req, res, next) => {

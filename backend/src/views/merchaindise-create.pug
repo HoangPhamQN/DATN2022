@@ -1,0 +1,48 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Tạo bài đăng
+            form( action="/hang-hoa/create" method="post" enctype="multipart/form-data").form.form--login
+                .form__group
+                    label.form__label(for='name') Tên sản phẩm
+                    input#email.form__input(type='input', placeholder='Nhập tên sản phẩm', required, name="name")
+                .form__group
+                    label.form__label(for='registrationCode') Mã đăng ký
+                    input.form__input(placeholder='Nhập mã đăng ký', required, name="registrationCode")
+                .form-group
+                    label.form__label(for='exampleFormControlTextarea1') Mô tả
+                    textarea.form__input#exampleFormControlTextarea1(placeholder='Thêm mô tả',rows='5', name='description')
+                .form__group
+                    label.form__label(for='unitPrice') Đơn giá (ETH)
+                    input.form__input( placeholder='Nhập đơn giá', required, name="unitPrice")
+                .form__group
+                    label.form__label(for='quantity') Số lượng
+                    input.form__input( placeholder='Nhập số lượng', required, name="quantity")
+                .form-group
+                    label.form__label(for='unit') Đơn vị tính
+                    select.form__input#unit(name='unit')
+                            for unit in units
+                                option #{unit}
+                .form-group
+                    label.form__label(for='category') Danh mục
+                    select.form__input#category(name='category')
+                        for cate in categories
+                            option(value=`${cate.id}`) #{cate.name}        
+                .form__group
+                    label.form__label(for='image') Chọn ảnh
+                    input#image1.form__input(type='file', required, name="image1")
+                    input#image2.form__input(type='file', required, name="image2")
+                    input#image3.form__input(type='file', required, name="image3")
+                .form__group
+                    button(type='submit').btn.btn--green Đăng bài
+    script.
+        function validConfirmPass(){
+            let pass = document.getElementById('password').value;
+            let passConfirm = document.getElementById('passwordConfirm').value;
+            if(pass != passConfirm){
+                window.alert("Mật khẩu không khớp, vui lòng kiểm tra lại!")
+            }
+        }
+                        
