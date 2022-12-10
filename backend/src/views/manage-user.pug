@@ -23,7 +23,7 @@ html
                 img(src='/imgs/logo-white.png' alt='Natours logo')
             nav.nav.nav--user
                 if user
-                    a.nav__el.nav__el--logout Log Out
+                    a.nav__el.nav__el--logout(href='/auth/logout') Log Out
                     .nav__el
                         img.nav__user-img(src=`http://localhost:4000/${user.photoUrl.slice(11).replaceAll("\\", "/")}` alt='User photo')
                         span= user.name.split(' ')[0]
