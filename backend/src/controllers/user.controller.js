@@ -131,6 +131,60 @@ const getCateById = catchAsync(async (req, res, next) => {
         res.render('category-detail', { cate })
     }
 })
+
+const lockUser = catchAsync(async (req, res, next) => {
+    const lockedUser = await UserService.lockUser(req.params.id)
+    if (!lockedUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ lockedUser })
+    }
+})
+
+const unlockUser = catchAsync(async (req, res, next) => {
+    const unlockedUser = await UserService.unlockUser(req.params.id)
+    if (!unlockedUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ unlockedUser })
+    }
+})
+
+const deleteUser = catchAsync(async (req, res, next) => {
+    const deletedUser = await UserService.deleteUser(req.params.id)
+    if (!deletedUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ deletedUser })
+    }
+})
+
+const recoverUser = catchAsync(async (req, res, next) => {
+    const recoveredUser = await UserService.recoverUser(req.params.id)
+    if (!recoveredUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ recoveredUser })
+    }
+})
+
+const addRoleSeller = catchAsync(async (req, res, next) => {
+    const updatedUser = await UserService.addRoleSeller(req.params.id)
+    if (!updatedUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ updatedUser })
+    }
+})
+
+const removeRoleSeller = catchAsync(async (req, res, next) => {
+    const updatedUser = await UserService.removeRoleSeller(req.params.id)
+    if (!updatedUser) {
+        res.status(404).render('error');
+    } else {
+        res.status(200).json({ updatedUser })
+    }
+})
 module.exports = {
     getMe,
     boughtOrder,
@@ -143,5 +197,11 @@ module.exports = {
     manageMerchaindise,
     getMerchaindiseById,
     manageCategory,
-    getCateById
+    getCateById,
+    lockUser,
+    unlockUser,
+    deleteUser,
+    recoverUser,
+    addRoleSeller,
+    removeRoleSeller
 }

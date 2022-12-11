@@ -18,8 +18,7 @@ const CategorySchema = mongoose.Schema({
         type: String,
     },
     tree_id: {
-        type: Number,
-        required: true
+        type: Number
     },
     isDeleted: {
         type: Boolean,

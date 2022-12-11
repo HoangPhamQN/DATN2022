@@ -35,29 +35,68 @@ html
         block content 
             .main__me
                 .login-form
-                    h2.heading-secondary.ma-bt-lg Thêm danh mục
                     form( action=``).form.form--login
                         .form__group
                             label.form__label(for='email') Tên danh mục
-                            input.form__input(value=``,  required, name="name", readonly, placeholder='Nhập tên danh mục...')
-                        //- .form__group.ma-bt-md
-                        //-     label.form__label(for='password') Slug
-                        //-     input.form__input(value=`${cate.slug}`,  required, name="quantity", readonly)
-                        .from__group 
-                            select.form__input#cars(name='cars', form='carform', style="margin-bottom: 50px")
-                                option(value='volvo') Thuốc
-                                option(value='saab') Vật tư y tế
+                            input#name.form__input(value=`${cate.name}`,  required, name="name")
+                        input#id.form__input(value=`${cate.id}`,type='hidden',  required, name="id")
+                        .form__group.ma-bt-md
+                            label.form__label(for='password') Slug
+                            input.form__input(value=`${cate.slug}`,  required, name="quantity", readonly)
+                        //- .from__group 
+                        //-     select.form__input#cars(name='cars', form='carform', style="margin-bottom: 50px")
+                        //-         option(value='volvo') Thuốc
+                        //-         option(value='saab') Vật tư y tế
                         
                         
                         .form__group
                             .form__button_wrapper
                                 //- button(type='button', onclick='update()').btn.btn--green Cập nhật
-                                button(type='button', onclick='delete()').btn.btn--green Thêm
+                                
+                                if !cate.isDeleted
+                                    button(type='button', onclick='capnhat()').btn.btn--green Cập nhật
+                                    if cate.id.toString() != "63954191df9782973265223f" || cate.id != "63954171df9782973265223e"
+                                        button(type='button', onclick='xoa()').btn.btn--green Xóa
                                 button(type='button', onclick='back()').btn.btn--green Quay lại
 
             script.
                 function back(){
                     history.back()
+                }
+
+                async function capnhat(){
+                    let id = document.getElementById('id').value;
+                    let name = document.getElementById('name').value;
+                    let data = {name: name};
+                    let response = await fetch(`http://localhost:4000/category/update/${id}`, {
+                        method: "PATCH", 
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                        });
+                    console.log(response.status)
+                    if(response.status == 200){
+                        window.alert('Cập nhật danh mục thành công!');
+                        window.location.href = `http://localhost:4000/user/admin/quan-ly-danh-muc`
+                    } else {
+                        window.alert('Cập nhật danh mục thất bại, vui lòng thử lại sau!');
+                        window.location.href = `http://localhost:4000/user/admin/quan-ly-danh-muc`
+                    }
+                }
+
+                async function xoa(){
+                    if (confirm("Bạn chắc chắn muốn xóa danh mục này?") == true) {
+                        let id = document.getElementById('id').value;
+                        let response = await fetch(`http://localhost:4000/user/admin/xoa-danh-muc/${id}`, {method: "delete"});
+                        if(response.status == 200){
+                            window.alert('Đã xóa danh mục!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-danh-muc`
+                        } else {
+                            window.alert('Xóa danh mục thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-danh-muc`
+                        }
+                    }
                 }
         // footer
         include _footer

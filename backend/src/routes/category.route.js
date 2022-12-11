@@ -10,5 +10,6 @@ const router = express.Router();
 router.route("/").get(CategoryController.getAllCategory);
 router.route("/:parentId/sub-category").get(CategoryController.getSubCate);
 router.route("/:id/merchaindise").get(CategoryController.getSubCategoryMerchaindise);
+router.route("/update/:id").patch(CategoryController.updateCategory);
 
 module.exports = router;

@@ -26,10 +26,40 @@ const getUserById = async (id) => {
     return (await User.findById(id))
 }
 
+const lockUser = async (id) => {
+    return await User.findByIdAndUpdate(id, { isBlocked: true }, { new: true })
+}
+
+const unlockUser = async (id) => {
+    return await User.findByIdAndUpdate(id, { isBlocked: false }, { new: true })
+}
+
+const deleteUser = async (id) => {
+    return await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true })
+}
+
+const recoverUser = async (id) => {
+    return await User.findByIdAndUpdate(id, { isDeleted: false }, { new: true })
+}
+
+const addRoleSeller = async (id) => {
+    return await User.findByIdAndUpdate(id, { role: "6350b3325bc8d1ddf91786cc" }, { new: true })
+}
+
+const removeRoleSeller = async (id) => {
+    return await User.findByIdAndUpdate(id, { role: "6350b3325bc8d1ddf91786cb" }, { new: true })
+}
+
 module.exports = {
     getMe,
     getSeller,
     getBuyer,
     listUser,
-    getUserById
+    getUserById,
+    lockUser,
+    unlockUser,
+    deleteUser,
+    recoverUser,
+    addRoleSeller,
+    removeRoleSeller
 }

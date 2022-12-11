@@ -6,13 +6,13 @@ const getAllMerchaindise = async (queryString) => {
     const page = queryObj.page * 1 || 1;
     const limit = queryObj.limit * 1 || 100;
     const skip = (page - 1) * limit;
-    const merchaindises = await Merchaindise.find().skip(skip).limit(limit)
+    const merchaindises = await Merchaindise.find({ isDeleted: false }).skip(skip).limit(limit)
     return merchaindises
 }
 
 const getDetail = async (id) => {
     const merchaindise = await Merchaindise.findById(id).populate("owner category").find({ isDeleted: false })
-    return merchaindise
+    return merchaindise[0]
 }
 
 const deleteMerchaindise = async (id) => {

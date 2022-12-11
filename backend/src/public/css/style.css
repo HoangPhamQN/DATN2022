@@ -1709,3 +1709,14 @@ a.login_btn {
 .btn--green:hover {
     background: #28b487 !important;
 }
+
+/* #addcate {
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: large;
+    font-weight: 500;
+    text-transform: none;
+    display: inline;
+    padding: none
+} */

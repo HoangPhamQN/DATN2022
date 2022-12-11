@@ -30,8 +30,20 @@ const getCreateMerchaindiseForm = async (req, res) => {
     })
 }
 
+const getCreateCategoryForm = (async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const parents = await CategoryService.getParentCate();
+    res.status(200).render('add-cate', {
+        medicals,
+        supplies,
+        parents
+    })
+
+})
+
 module.exports = {
     getLoginForm,
     getSignUpForm,
-    getCreateMerchaindiseForm
+    getCreateMerchaindiseForm,
+    getCreateCategoryForm
 }

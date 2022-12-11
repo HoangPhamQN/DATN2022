@@ -46,20 +46,120 @@ html
                         .form__group.ma-bt-md
                             label.form__label(for='password') Số điện thoại
                             input.form__input( value=`${userDetail.phoneNumber}`, required, name="totalInvoice", readonly, id="totalInvoice")
-                        
+                        .form__group 
+                                input#user-id(type="hidden", name="user-id" value=`${userDetail.id}`)
                         
                         .form__group
                             .form__button_wrapper
-                                if userDetail.isBlocked
-                                    button(type='button', onclick='lock()').btn.btn--green Mở khóa
+                                if !userDetail.isDeleted
+                                    if userDetail.isBlocked
+                                        button(type='button', onclick='unlock()').btn.btn--green Mở khóa
+                                    else if !userDetail.isBlocked
+                                        button(type='button', onclick='lock()').btn.btn--green Khóa
+                                        if userDetail.role == "6350b3325bc8d1ddf91786cb"
+                                            button(type='button', onclick='addrole()').btn.btn--green Cấp quyền seller
+                                        else 
+                                            button(type='button', onclick='removerole()').btn.btn--green Gỡ quyền seller
+                                    button(type='button', onclick='deleteAcc()').btn.btn--green Xóa tài khoản
+                                    
                                 else
-                                    button(type='button', onclick='unLock()').btn.btn--green Khóa
-                                button(type='button', onclick='delete()').btn.btn--green Xóa tài khoản
+                                    button(type='button', onclick='recover()').btn.btn--green Khôi phục tài khoản 
+                                    
                                 button(type='button', onclick='back()').btn.btn--green Quay lại
 
             script.
                 function back(){
                     history.back()
+                }
+
+                async function lock(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn khóa người dùng này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/lock/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã khóa tài khoản người dùng!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Khóa người dùng thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
+                }
+
+                async function unlock(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn mở khóa cho người dùng này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/unlock/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã mở khóa tài khoản người dùng!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Mở khóa người dùng thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
+                }
+
+                async function deleteAcc(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn xóa người dùng này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/delete/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã xóa tài khoản người dùng!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Xóa người dùng thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
+                }
+
+                async function recover(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn khôi phục tài khoản này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/recover/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã khôi phục tài khoản người dùng!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Khôi phục người dùng thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
+                }
+
+                async function addrole(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn cấp quyền seller cho tài khoản này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/add-role-seller/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã cấp quyền seller thành công!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Cấp quyền seller thất bại thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
+                }
+
+                async function removerole(){
+                    let userId = document.getElementById('user-id').value;
+                    if (confirm("Bạn chắc chắn muốn hủy quyền seller cho tài khoản này?") == true){
+                        let response = await fetch(`http://localhost:4000/user/remove-role-seller/${userId}`, {method: "PATCH"});
+                        if(response.status == 200){
+                            window.alert('Đã hủy quyền seller thành công!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        } else {
+                            window.alert('Hủy quyền seller thất bại thất bại, vui lòng thử lại sau!');
+                            window.location.href = `http://localhost:4000/user/admin/quan-ly-nguoi-dung`
+                        }
+                    }
+                    
                 }
         // footer
         include _footer

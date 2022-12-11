@@ -1,0 +1,25 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Thêm danh mục
+            form( action="/user/admin/them-danh-muc" method="post").form.form--login
+                .form__group
+                    label.form__label(for='name') Tên danh mục
+                    input#email.form__input(type='input', placeholder='Nhập tên sản phẩm', required, name="name")
+                    
+                .form-group
+                    label.form__label(for='category') Danh mục cha
+                    select.form__input#parent(name='parent', required)
+                        for parent in parents
+                            option(value=`${parent.id}`) #{parent.name}        
+                .form__group
+                    button(type='submit').btn.btn--green Thêm
+                    
+                    button(type='button', onclick='back()').btn.btn--green Quay lại
+    script.
+        function back(){
+                    history.back()
+                }
+                        

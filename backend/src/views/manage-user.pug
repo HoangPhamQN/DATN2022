@@ -40,13 +40,15 @@ html
                         .don-mua
                             .don__mua_span #{index +1}
                             a.don__mua__link(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) #{user.name}
-                            if user.isBlocked
+                            if user.isBlocked && !user.isDeleted
                                 .don__mua__status Locked  
+                            else if user.isDeleted 
+                                .don__mua__status Deleted
                             else 
-                                .don__mua__status Unlocked 
+                                .don__mua__status Active
                             a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) Chi tiết
-                            if user.role == "6350b3325bc8d1ddf91786cb"
-                                .don__mua__status Cấp quyền seller
+                            
+                                //- .don__mua__status Cấp quyền seller
             nav(aria-label='Page navigation example').paginate
                     ul.pagination.justify-content-center
                         li.page-item.disabled
@@ -59,6 +61,8 @@ html
                             a.page-link(href='?page=3&limit=10') 3
                         li.page-item
                             a.page-link(href='#') Next
+            
+           
         // footer
         include _footer
 

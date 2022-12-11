@@ -37,11 +37,15 @@ html
                 .me__data
                     .btn-back__manage__merchaindise
                         h1 DANH SÁCH DANH MỤC
-                        button.btn.btn-secondary(onclick='back()') Thêm danh mục
+                        button#addcate.btn.btn-secondary(onclick='load()') Thêm danh mục
                     each cate, index in categories 
                         .don-mua
                             .don__mua_span #{index +1}
                             a.don__mua__link(href=`http://localhost:4000/user/admin/chi-tiet-danh-muc/${cate._id}`) #{cate.name}
+                            if cate.isDeleted 
+                                .don__mua__status Deleted
+                            else 
+                                 .don__mua__status Active
                             a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-danh-muc/${cate._id}`) Chi tiết
             nav(aria-label='Page navigation example').paginate
                     ul.pagination.justify-content-center
@@ -55,6 +59,11 @@ html
                             a.page-link(href='?page=3&limit=10') 3
                         li.page-item
                             a.page-link(href='#') Next
+            
+            script. 
+                function load(){
+                    window.location.href = 'http://localhost:4000/user/admin/them-danh-muc'
+                }
         // footer
         include _footer
 
