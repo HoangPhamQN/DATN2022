@@ -1,0 +1,11 @@
+extends base
+block content 
+    main 
+        .login_require
+            h1 Bạn không thể tự mua hàng của chính mình!
+            .form__group
+                button.btn.btn--green(type='button', onclick="back()") Quay lại
+    script. 
+        function back(){
+            history.back()
+        }

@@ -9,8 +9,12 @@ const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 
 const getPaymentForm = catchAsync(async (req, res, next) => {
-    const merchaindise = await Merchaindise.findById(req.params.id)
+    const merchaindise = await Merchaindise.findById(req.params.id).populate('owner');
     let buyerId = req.user.id;
+    if (merchaindise.owner.id == buyerId) {
+        res.render('self-buy');
+        return
+    }
     res.render('payment-form', { merchaindise, buyerId })
 })
 const createAndDeployContract = catchAsync(async (req, res, next) => {
