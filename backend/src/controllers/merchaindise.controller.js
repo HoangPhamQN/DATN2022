@@ -71,7 +71,7 @@ const createMerchaindise = catchAsync(async (req, res, next) => {
         // const { medicals, supplies } = await getCategoryName()
         // const me = await UserService.getMe(req.user.id)
         // const merchaindises = await MerchaindiseService.getMerchaindiseByOwner(req.user.id);
-        res.status(200).redirect(`/user/${req.user.id}/tat-ca-bai-dang`);
+        res.status(200).redirect(`/user/${req.user.id}/tat-ca-bai-dang?page=1&limit=3`);
     }
 })
 
@@ -137,7 +137,7 @@ const temp = catchAsync(async (req, res, next) => {
 
 const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
-    const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug)
+    const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug, req.query)
     if (!merchaindises || merchaindises.length === 0) {
         res.status(404).render('error', { medicals, supplies })
     }

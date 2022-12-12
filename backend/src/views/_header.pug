@@ -1,24 +1,24 @@
 header.header
     nav.nav.nav--tours
-        a.nav__el(href='/hang-hoa/tat-ca-mat-hang') Tất cả mặt hàng
+        a.nav__el(href='/hang-hoa/tat-ca-mat-hang?page=1&limit=3') Tất cả mặt hàng
         //- a.nav__el(href='' data-toggle='dropdown') Vật tư y tế
         //- a.nav__el(href='/merchaindise/thuoc') Thuốc
         .dropdown
-            a.nav__el.dropdown-toggle(href='/hang-hoa/thuoc', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+            a.nav__el.dropdown-toggle(href='/hang-hoa/thuoc?page=1&limit=3', role='button', data-bs-toggle='dropdown', aria-expanded='false')
                 | Thuốc
             ul.dropdown-menu
                 if medicals
                     each item in medicals
                         li
-                        a.dropdown-item(href=`/hang-hoa/${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[đĐ]/g, 'd').replace(/([^0-9a-z-\s])/g, '').replace(/(\s+)/g, '-').replace(/^-+|-+$/g, '')}`)= item
+                        a.dropdown-item(href=`/hang-hoa/${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[đĐ]/g, 'd').replace(/([^0-9a-z-\s])/g, '').replace(/(\s+)/g, '-').replace(/^-+|-+$/g, '')}?page=1&limit=3`)= item
         .dropdown
-            a.nav__el.dropdown-toggle(href='/hang-hoa/vat-tu-y-te', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+            a.nav__el.dropdown-toggle(href='/hang-hoa/vat-tu-y-te?page=1&limit=3', role='button', data-bs-toggle='dropdown', aria-expanded='false')
                 | Vật tư y tế
             ul.dropdown-menu
                 if supplies
                     each item in supplies
                         li
-                        a.dropdown-item(href=`/hang-hoa/${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[đĐ]/g, 'd').replace(/([^0-9a-z-\s])/g, '').replace(/(\s+)/g, '-').replace(/^-+|-+$/g, '')}`)= item
+                        a.dropdown-item(href=`/hang-hoa/${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[đĐ]/g, 'd').replace(/([^0-9a-z-\s])/g, '').replace(/(\s+)/g, '-').replace(/^-+|-+$/g, '')}?page=1&limit=3`)= item
         //- form.nav__search
         //- button.nav__search-btn
         //-     svg

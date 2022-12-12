@@ -58,7 +58,7 @@ const noti = catchAsync(async (req, res, next) => {
 const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
     const me = await UserService.getMe(req.params.id)
-    const merchaindises = await MerchaindiseService.getMerchaindiseByOwner(req.params.id);
+    const merchaindises = await MerchaindiseService.getMerchaindiseByOwner(req.params.id, req.query);
     if (!merchaindises) {
         res.status(404).render('error');
     }

@@ -6,13 +6,13 @@ const getAllMerchaindise = async (queryString) => {
     const page = queryObj.page * 1 || 1;
     const limit = queryObj.limit * 1 || 100;
     const skip = (page - 1) * limit;
-    const merchaindises = await Merchaindise.find({ isDeleted: false }).skip(skip).limit(limit)
+    const merchaindises = await Merchaindise.find({ isDeleted: false }).skip(skip).limit(limit).sort('-createdAt')
     return merchaindises
 }
 
 const getDetail = async (id) => {
     const merchaindise = await Merchaindise.findById(id).populate("owner category").find({ isDeleted: false })
-    return merchaindise[0]
+    return merchaindise
 }
 
 const deleteMerchaindise = async (id) => {
@@ -61,15 +61,23 @@ const getMedicalSupplies = async () => {
     return result
 }
 
-const getMerchaindiseByCategory = async (slug) => {
+const getMerchaindiseByCategory = async (slug, queryString) => {
     // const cateId = await Category.find({ id: { $eq: '634edd45dc378e9fcbcefb20' } })[0]
+    queryObj = { ...queryString }
+    const page = queryObj.page * 1 || 1;
+    const limit = queryObj.limit * 1 || 100;
+    const skip = (page - 1) * limit;
     const cateId = (await Category.findOne({ slug: slug })).id
-    const result = await Merchaindise.find({ category: cateId })
+    const result = await Merchaindise.find({ category: cateId }).sort('-createdAt').skip(skip).limit(limit)
     return result
 }
 
-const getMerchaindiseByOwner = async (id) => {
-    return await Merchaindise.find({ owner: id, isDeleted: false }).sort('-createdAt');
+const getMerchaindiseByOwner = async (id, queryString) => {
+    queryObj = { ...queryString }
+    const page = queryObj.page * 1 || 1;
+    const limit = queryObj.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    return await Merchaindise.find({ owner: id, isDeleted: false }).sort('-createdAt').skip(skip).limit(limit);
 }
 
 module.exports = {
