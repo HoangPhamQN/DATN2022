@@ -17,5 +17,6 @@ router.route("/create").post(AuthController.protect, upload.fields([
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },
 ]), MerchaindiseController.createMerchaindise)
+router.route("/kiem-tra-so-luong/:slug").post(AuthController.protect, MerchaindiseController.checkExistQuantity);
 
 module.exports = router;

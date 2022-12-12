@@ -1,4 +1,8 @@
 const { User } = require('../models')
+const Web3 = require("web3");
+
+// Setting up a HttpProvider
+const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 
 const getMe = async (id) => {
     return await User.findById(id)
@@ -50,6 +54,17 @@ const removeRoleSeller = async (id) => {
     return await User.findByIdAndUpdate(id, { role: "6350b3325bc8d1ddf91786cb" }, { new: true })
 }
 
+const checkBalance = async (id, num) => {
+    const user = await User.findById(id);
+    let address = user.walletAddress;
+    let balance = await web3.utils.fromWei((await web3.eth.getBalance(address)).toString());
+    let check;
+    if (num > balance) {
+        check = false
+    } else check = true
+    return check
+}
+
 module.exports = {
     getMe,
     getSeller,
@@ -61,5 +76,6 @@ module.exports = {
     deleteUser,
     recoverUser,
     addRoleSeller,
-    removeRoleSeller
+    removeRoleSeller,
+    checkBalance
 }

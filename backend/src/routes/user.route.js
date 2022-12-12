@@ -30,6 +30,7 @@ router.route('/delete/:id').patch(AuthController.protect, UserController.deleteU
 router.route('/recover/:id').patch(AuthController.protect, UserController.recoverUser)
 router.route('/add-role-seller/:id').patch(AuthController.protect, UserController.addRoleSeller)
 router.route('/remove-role-seller/:id').patch(AuthController.protect, UserController.removeRoleSeller)
+router.route('/check-balance/:id').post(AuthController.protect, UserController.checkBalance)
 
 
 module.exports = router

@@ -185,6 +185,11 @@ const removeRoleSeller = catchAsync(async (req, res, next) => {
         res.status(200).json({ updatedUser })
     }
 })
+
+const checkBalance = catchAsync(async (req, res, next) => {
+    const check = await UserService.checkBalance(req.params.id, req.body.totalPrice)
+    res.status(200).send({ check })
+})
 module.exports = {
     getMe,
     boughtOrder,
@@ -203,5 +208,6 @@ module.exports = {
     deleteUser,
     recoverUser,
     addRoleSeller,
-    removeRoleSeller
+    removeRoleSeller,
+    checkBalance
 }

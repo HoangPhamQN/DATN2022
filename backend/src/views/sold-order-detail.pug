@@ -12,6 +12,8 @@ block content
                         label.form__label(for='password') Số lượng
                         input.form__input(value=`${orderInfo.quantity}`,  required, name="quantity", readonly)
                     .form__group.ma-bt-md
+                        input.form__input(value=`${orderInfo.id}`,  type='hidden',required, name="id", readonly, id='id')
+                    .form__group.ma-bt-md
                         label.form__label(for='password') Tổng số tiền
                         input.form__input( value=`${orderInfo.totalInvoice} ETH`, required, name="totalInvoice", readonly, id="totalInvoice")
                     .form__group.ma-bt-md
@@ -22,9 +24,13 @@ block content
                         if orderInfo.status == '0'
                             input.form__input( value='New', required, id="status", readonly)
                         else if orderInfo.status == '1'
+                            input.form__input( value='Processing', required, id="status", readonly)
+                        else if orderInfo.status == '2'
                             input.form__input( value='Deliveried', required, id="status", readonly)
-                        else
+                        else if orderInfo.status == '3'
                             input.form__input( value='Cancelled', required, id="status", readonly)
+                        else
+                            input.form__input( value='Completed', required, id="status", readonly)
                     
                     if orderInfo.status == '1'
                         .form__group
@@ -38,6 +44,8 @@ block content
                         .form__group
                             button(type='button', onclick='withDraw()').btn.btn--green Rút tiền
                             button(type='button', onclick='back()').btn.btn--green Quay lại
+                    else if orderInfo.status == '3' || orderInfo.status =='4'
+                        button(type='button', onclick='back()').btn.btn--green Quay lại
                     input(type="hidden", id="address", value=`${address}`)
                     input(type="hidden", id="dueDate", value=`${orderInfo.dueDate}`)
                     input(type="hidden", id="seller-id", value=`${me.id}`)
@@ -54,6 +62,7 @@ block content
             let buyerAddress = document.getElementById('buyer-address').value;
             let sellerAddress = document.getElementById('seller-address').value;
             let userId = document.getElementById('seller-id').value;
+            let id = document.getElementById('id').value;
 
             let ABI = (await (await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "GET"})).json()).abi;
             window.web3 = await new Web3(window.ethereum);
@@ -61,6 +70,7 @@ block content
             console.log(await window.contract.methods.getBalance().call())
             let orderInfo = await window.contract.methods.getOrder().call();
             let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
+            await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-ban/${orderAddress}/${id}`, {method: "POST"});
             //- await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000});
             window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000})
                 .then(async tx => {
@@ -129,4 +139,8 @@ block content
                 window.alert('Bạn đã xác nhận đơn hàng!');
                 history.back()
             }
+        }
+
+        function back(){
+            history.back()
         }

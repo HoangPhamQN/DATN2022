@@ -23,24 +23,11 @@ const createAndSendToken = (user, statusCode, res) => {
         httpOnly: true
     };
     res.cookie('jwt', token, cookieOption);
-    // console.log(token)
-    // user.password = undefined;
-    // res.status(statusCode).json({
-    //     status: 'success',
-    //     token,
-    //     data: {
-    //         user: user
-    //     }
-    // });
-    // res.send('<script>alert("Login successfully!"); window.history.go(-2); </script>');
     if (user.role.toString() == "6350b3325bc8d1ddf91786cd") {
         res.redirect('/user/admin')
     }
-    // else if (typeof previous_url === "undefined") {
-    //     res.redirect('/hang-hoa/tat-ca-mat-hang')
-    // }
     else {
-        res.redirect('/hang-hoa/tat-ca-mat-hang')
+        res.redirect('/hang-hoa/tat-ca-mat-hang?page=1&limit=3')
     }
 };
 

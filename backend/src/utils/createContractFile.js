@@ -1,8 +1,9 @@
 const createContractFile = (body) => {
     const fs = require('fs');
     const dir = './src/blockchain/contracts';
-    let { name, quantity, unitPrice, slug, buyerAddress, sellerAddress } = body;
+    let { name, quantity, unitPrice, slug, buyerAddress, sellerAddress, id } = body;
     let totalInvoice = unitPrice * quantity;
+    console.log(1111, slug)
 
     const totalContract = fs.readdirSync(dir).length
     const nameOverided = slug.replaceAll('-', ' ')
@@ -20,6 +21,7 @@ contract Contract_${totalContract} {
         uint quantity;
         uint256 dueDate;
         string productName;
+        string id;
         order_status status;
     }
     enum order_status {
@@ -32,6 +34,7 @@ contract Contract_${totalContract} {
     address public buyerAddress = ${buyerAddress};
     address public sellerAddress = ${sellerAddress};
     string public productName = "${nameOverided}";
+    string public id = "${id}";
     uint public quantity = ${quantity};
     uint public totalInvoice = ${totalInvoice};
     uint256 public dueDate = block.timestamp + 2 weeks;
@@ -63,6 +66,7 @@ contract Contract_${totalContract} {
                 quantity,
                 dueDate,
                 productName,
+                id,
                 status
             );
     }

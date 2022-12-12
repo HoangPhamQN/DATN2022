@@ -20,22 +20,16 @@ const getAllMerchaindise = catchAsync(async (req, res, next) => {
 
 const getDetail = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
-    const merchaindise = await MerchaindiseService.getDetail(req.params.id);
-    if (!merchaindise) {
+    let merchaindise = await MerchaindiseService.getDetail(req.params.id);
+    if (merchaindise.length == 0) {
         res.status(404).render('error')
+    } else {
+        merchaindise = merchaindise[0]
+        res.status(200).render('merchaindise', {
+            title: merchaindise.name,
+            merchaindise, medicals, supplies
+        });
     }
-    // if (!merchaindise) {
-    //     return next(new AppError("Merchaindise Not Found!", 404));
-    // } else {
-    //     res.status(200).json({
-    //         "data": merchaindise,
-    //         "totalCount": merchaindise.length
-    //     });
-    // }
-    res.status(200).render('merchaindise', {
-        title: merchaindise.name,
-        merchaindise, medicals, supplies
-    });
 })
 
 const deleteMerchaindise = catchAsync(async (req, res, next) => {
@@ -81,43 +75,6 @@ const updateMerchaindise = catchAsync(async (req, res, next) => {
         res.status(400).render('error')
     }
     res.json({ merchaindise });
-    // const merchaindiseDetail = await Merchaindise.findById(req.params.id)
-    // let imageAvatarPath, image1, image2, image3, image4, imagesPath = []
-    // if (req.files) {
-    //     console.log("file co")
-    //     imageAvatarPath = req.files.image1 ? req.files.image1[0].path : merchaindiseDetail.imageAvatar
-    //     image2 = req.files.image2 ? req.files.image2[0].path : merchaindiseDetail.images[0]
-    //     image3 = req.files.image3 ? req.files.image3[0].path : merchaindiseDetail.images[1]
-    //     image4 = req.files.image4 ? req.files.image4[0].path : merchaindiseDetail.images[2]
-    //     imagesPath.push(image1);
-    //     imagesPath.push(image2);
-    //     imagesPath.push(image3);
-    // } else {
-    //     imageAvatarPath = merchaindiseDetail.imageAvatar
-    //     image1 = merchaindiseDetail.images[0]
-    //     image2 = merchaindiseDetail.images[1]
-    //     image3 = merchaindiseDetail.images[2]
-    //     imagesPath.push(image1);
-    //     imagesPath.push(image2);
-    //     imagesPath.push(image3);
-    // }
-    // console.log("body: ", req.body)
-    // const body = Object.assign(
-    //     req.body,
-    //     { imageAvatar: imageAvatarPath },
-    //     { images: imagesPath }
-    // );
-    // const merchaindise = await MerchaindiseService.updateMerchaindise(req.params.id, body);
-    // if (!merchaindise) {
-    //     return next(
-    //         new AppError(`Can not update merchaindise with id ${req.params.id}, please check again!`, 400)
-    //     );
-    // } else {
-    //     res.status(200).json({
-    //         "data": merchaindise,
-    //         "totalCount": merchaindise.length
-    //     });
-    // }
 })
 
 const getMedicalSupplies = catchAsync(async (req, res, next) => {
@@ -154,6 +111,12 @@ const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
     res.json({ result })
 })
 
+const checkExistQuantity = catchAsync(async (req, res, next) => {
+    const { check, num } = await MerchaindiseService.checkExistQuantity(req.body.quantity, req.params.slug);
+    console.log(num)
+    res.status(200).send({ check, num })
+})
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
@@ -162,5 +125,6 @@ module.exports = {
     updateMerchaindise,
     getMedicalSupplies,
     getMerchaindiseByCategory,
-    getMerchaindiseByOwner
+    getMerchaindiseByOwner,
+    checkExistQuantity
 }

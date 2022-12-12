@@ -11,14 +11,62 @@ block content
                         input#email.form__input(value=`${merchaindise.name}`,  required, name="name", readonly)
                     .form__group.ma-bt-md
                         label.form__label(for='password') Số lượng
-                        input#password.form__input( required, name="quantity")
+                        input#quantity.form__input( required, name="quantity", type='number', onchange='validate()')
                     .form__group.ma-bt-md
                         label.form__label(for='password') Đơn giá
-                        input#password.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice", readonly)
+                        input#unitPrice.form__input( value=`${merchaindise.unitPrice}`, required, name="unitPrice", readonly)
                     //- .form__group 
                     //-     input(type="hidden", name="previous_url" value=`${url}`)
                     .form__group 
-                        input(type="hidden", name="slug" value=`${merchaindise.slug}`)
+                        input(type="hidden", name="slug", value=`${merchaindise.slug}`, id='slug')
+                    .form__group 
+                        input(type="hidden", name="id", value=`${merchaindise.id}`, id='id')
+                    .form__group 
+                        input(type="hidden", name="buyerId", value=`${buyerId}`, id='buyerId')
                     .form__group
                         button(type='submit').btn.btn--green Mua ngay
                         
+    script. 
+        async function validate(){
+            let quantity = document.getElementById('quantity').value;
+            let unitPrice = document.getElementById('unitPrice').value;
+            let slug = document.getElementById('slug').value;
+            let buyerId = document.getElementById('buyerId').value;
+            let totalPrice = quantity * unitPrice
+            let data = {quantity: quantity};
+            let response = await fetch(`http://localhost:4000/hang-hoa/kiem-tra-so-luong/${slug}`, {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+                });
+            
+            if(response.status == 200){
+                response = await response.json()
+                if(response.check == false){
+                    window.alert(`Số lượng tối đa có thể mua là ${response.num}`);
+                }
+            } else {
+                window.alert('Đã xảy ra lỗi, vui lòng thử lại sau!');
+                history.back()
+            }
+
+            let data1 = {totalPrice: totalPrice};
+            let response1 = await fetch(`http://localhost:4000/user/check-balance/${buyerId}`, {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data1)
+                });
+            if(response1.status == 200){
+                response1 = await response1.json()
+                if(response1.check == false){
+                    window.alert(`Số tiền trong tài khoản của bạn không đủ!`);
+                }
+            } else {
+                window.alert('Đã xảy ra lỗi, vui lòng thử lại sau!');
+                history.back()
+            }
+        }

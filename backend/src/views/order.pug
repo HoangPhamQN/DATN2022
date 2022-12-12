@@ -19,6 +19,8 @@ block content
                             .don__mua__status Processing
                         else if order.status == 2
                             .don__mua__status Deliveried
+                        else if order.status == 3
+                            .don__mua__status Cancelled
                         else if order.status == 4
                             .don__mua__status Completed
                         a.don__mua__status(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) Chi tiết

@@ -5,7 +5,10 @@ const getAbiByContractAddress = async (address) => {
 }
 
 const deleteUserContractByAddress = async (address) => {
-    await UserContract.deleteOne({ contractAddress: address });
+    let userContract = (await UserContract.find({ contractAddress: address }))[0]
+    userContract.isDeleted = true;
+    userContract.save()
+    return userContract;
 }
 
 const getContractByUser = async (userId) => {

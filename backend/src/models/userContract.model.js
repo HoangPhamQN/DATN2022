@@ -13,6 +13,10 @@ const userContractSchema = mongoose.Schema({
     contractAddress: {
         type: String
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });

@@ -12,6 +12,8 @@ block content
                         label.form__label(for='password') Số lượng
                         input.form__input(value=`${orderInfo.quantity}`,  required, name="quantity", readonly)
                     .form__group.ma-bt-md
+                        input.form__input(value=`${orderInfo.id}`,  type='hidden',required, name="id", readonly, id='id')
+                    .form__group.ma-bt-md
                         label.form__label(for='password') Tổng số tiền
                         input.form__input( value=`${orderInfo.totalInvoice} ETH`, required, name="totalInvoice", readonly, id="totalInvoice")
                     .form__group.ma-bt-md
@@ -22,15 +24,21 @@ block content
                         if orderInfo.status == '0'
                             input.form__input( value='New', required, id="status", readonly)
                         else if orderInfo.status == '1'
+                            input.form__input( value='Processing', required, id="status", readonly)
+                        else if orderInfo.status == '2'
                             input.form__input( value='Deliveried', required, id="status", readonly)
-                        else
+                        else if orderInfo.status == '3'
                             input.form__input( value='Cancelled', required, id="status", readonly)
+                        else
+                            input.form__input( value='Completed', required, id="status", readonly)
                     
                     
-                    if orderInfo.status == '0'
-                        .form__group
-                            button(type='button', onclick='confirmGiven()').btn.btn--green Đã nhận được hàng
-                            button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
+                    
+                    .form__group
+                            if orderInfo.status == 1
+                                button(type='button', onclick='confirmGiven()').btn.btn--green Đã nhận được hàng
+                            if orderInfo.status == 0
+                                button(type='button', onclick='orderCancel()').btn.btn--green Hủy đơn
                             button(type='button', onclick='back()').btn.btn--green Quay lại
                     input(type="hidden", id="address", value=`${address}`)
                     input(type="hidden", id="buyer-id", value=`${me.id}`)
@@ -42,21 +50,33 @@ block content
                 window.alert('Trạng thái đơn hàng không được phép hủy!');
                 return
             }
-            let orderAddress = document.getElementById('address').value;
-            let buyerAddress = document.getElementById('buyer-address').value;
+            if (confirm("Bạn chắc chắn muốn hủy đơn hàng này?") == true){
+                let orderAddress = document.getElementById('address').value;
+                let buyerAddress = document.getElementById('buyer-address').value;
+                let id = document.getElementById('id').value;
 
-            let ABI = (await (await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "GET"})).json()).abi;
-            window.web3 = await new Web3(window.ethereum);
-            window.contract = await new window.web3.eth.Contract(ABI, orderAddress);
-            console.log(await window.contract.methods.getBalance().call())
-            let orderInfo = await window.contract.methods.getOrder().call();
-            let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
-            await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: buyerAddress, gas: 1500000});
+                let ABI = (await (await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "GET"})).json()).abi;
+                window.web3 = await new Web3(window.ethereum);
+                window.contract = await new window.web3.eth.Contract(ABI, orderAddress);
+                console.log(await window.contract.methods.getBalance().call())
+                let orderInfo = await window.contract.methods.getOrder().call();
+                let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
+                await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: buyerAddress, gas: 1500000});
 
-            let userId = document.getElementById('buyer-id').value;
-            await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
-            window.alert('Bạn đã hủy đơn hàng thành công!');
-            window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
+                let userId = document.getElementById('buyer-id').value;
+                let response = await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
+
+                let response1 = await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-mua/${orderAddress}/${id}`, {method: "POST"});
+                if(response.status == 200 && response1.status == 200){
+                    window.alert('Bạn đã hủy đơn hàng thành công!');
+                    window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
+                } else {
+                    window.alert('Đã xảy ra lỗi, vui lòng thử lại sau!');
+                    window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
+                }
+            }
+            
+            
         }
 
         async function confirmGiven(){
@@ -67,4 +87,8 @@ block content
                 window.alert('Cảm ơn bạn đã xác nhận khi nhận được hàng!');
                 window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
             }
+        }
+
+        function back(){
+            history.back()
         }

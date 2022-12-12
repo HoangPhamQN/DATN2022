@@ -23,6 +23,28 @@ const deleteMerchaindise = async (id) => {
 };
 
 const createMerchaindise = async (body) => {
+    let slug = body.name;
+    slug = slug.toLowerCase();
+
+    // xóa dấu
+    slug = slug
+        .normalize('NFD') // chuyển chuỗi sang unicode tổ hợp
+        .replace(/[\u0300-\u036f]/g, ''); // xóa các ký tự dấu sau khi tách tổ hợp
+
+    // Thay ký tự đĐ
+    slug = slug.replace(/[đĐ]/g, 'd');
+
+    // Xóa ký tự đặc biệt
+    slug = slug.replace(/([^0-9a-z-\s])/g, '');
+
+    // Xóa khoảng trắng thay bằng ký tự -
+    slug = slug.replace(/(\s+)/g, '-');
+
+    // Xóa ký tự - liên tiếp
+    slug = slug.replace(/-+/g, '-');
+
+    // xóa phần dư - ở đầu & cuối
+    slug = slug.replace(/^-+|-+$/g, '');
     const newMerchaindise = await Merchaindise.create({
         name: body.name,
         registrationCode: body.registrationCode,
@@ -33,7 +55,8 @@ const createMerchaindise = async (body) => {
         quantity: body.quantity,
         unit: body.unit,
         owner: body.owner,
-        category: body.category
+        category: body.category,
+        slug: slug
     })
 
     return newMerchaindise
@@ -80,6 +103,26 @@ const getMerchaindiseByOwner = async (id, queryString) => {
     return await Merchaindise.find({ owner: id, isDeleted: false }).sort('-createdAt').skip(skip).limit(limit);
 }
 
+const checkExistQuantity = async (quantity, slug) => {
+    const merchaindiseQuantity = (await Merchaindise.find({ slug: slug }))[0].quantity;
+    let check, num;
+    if (quantity <= merchaindiseQuantity) {
+        check = true;
+        num = quantity
+    } else {
+        check = false;
+        num = merchaindiseQuantity
+    }
+    return { check, num };
+}
+
+const decreaseQuantity = async (slug, quantity) => {
+    const merchaindise = (await Merchaindise.find({ slug: slug }))[0];
+    merchaindise.quantity -= parseInt(quantity);
+    merchaindise.soldQuantity += parseInt(quantity);
+    merchaindise.save()
+}
+
 module.exports = {
     getAllMerchaindise,
     getDetail,
@@ -88,5 +131,7 @@ module.exports = {
     updateMerchaindise,
     getMedicalSupplies,
     getMerchaindiseByCategory,
-    getMerchaindiseByOwner
+    getMerchaindiseByOwner,
+    checkExistQuantity,
+    decreaseQuantity
 }
