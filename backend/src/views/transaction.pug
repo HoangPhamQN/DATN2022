@@ -25,7 +25,7 @@ block content
     script.
         async function show(){
             if(window.ethereum !== "undefined") {
-                const accounts = await ethereum.request({method: "eth_requestAccounts"});
+                const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
                 account = document.getElementById("from-address").value;
             }
             let userId = document.getElementById("user-id").value;

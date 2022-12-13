@@ -20,6 +20,9 @@ block content
                         label.form__label(for='password') Thông tin người bán
                         input.form__input( value=`Email: ${seller.email} / SĐT: ${seller.phoneNumber} `, readonly)
                     .form__group.ma-bt-md
+                        label.form__label(for='password') Ngày đặt mua
+                        input.form__input( value=`${time}`, readonly)
+                    .form__group.ma-bt-md
                         label.form__label(for='password') Trạng thái đơn hàng
                         if orderInfo.status == '0'
                             input.form__input( value='New', required, id="status", readonly)

@@ -12,18 +12,21 @@ block content
                     .don-mua
                         //- input.form-control(type='text', aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default', readonly, value=`${index}: ${order.productName}`)
                         .don__mua_span #{index +1}
-                        a.don__mua__link(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) #{order.productName.charAt(0).toUpperCase() + order.productName.slice(1)}
-                        if order.status == 0
-                            .don__mua__status New  
-                        else if order.status == 1
+                        a.don__mua__link(href=`http://localhost:4000/user-contract/don-mua/${order.info.orderAddress}`) #{(order.info.productName.charAt(0).toUpperCase() + order.info.productName.slice(1)).replaceAll(' ', '-') + '-' + order.name}
+                        if order.info.status == 0
+                            if order.balance == 0
+                                .don__mua__status Cancelled  
+                            else 
+                                .don__mua__status New
+                        else if order.info.status == 1
                             .don__mua__status Processing
-                        else if order.status == 2
+                        else if order.info.status == 2
                             .don__mua__status Deliveried
-                        else if order.status == 3
+                        else if order.info.status == 3
                             .don__mua__status Cancelled
-                        else if order.status == 4
+                        else if order.info.status == 4
                             .don__mua__status Completed
-                        a.don__mua__status(href=`http://localhost:4000/user-contract/don-mua/${order.orderAddress}`) Chi tiết
+                        a.don__mua__status(href=`http://localhost:4000/user-contract/don-mua/${order.info.orderAddress}`) Chi tiết
         .btn-back__wrapper
             button.btn.btn-secondary(onclick='back()') Quay lại
     nav(aria-label='Page navigation example').paginate

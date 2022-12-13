@@ -34,9 +34,16 @@ const getContractByUser = catchAsync(async (req, res, next) => {
     for (ele of contractsByUser) {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
+        let time = ele['createdAt'];
+        time = (new Date(time)).toString();
+        time = time.slice(0, 24);
+        let name = time.replaceAll(' ', '-');
+        name = name.replaceAll(':', '-');
         let contract = await new web3.eth.Contract(abi, address);
+        let balance = await contract.methods.getBalance().call();
         let orderInfo = await contract.methods.getOrder().call();
-        orderResult.push(orderInfo);
+        result = { info: orderInfo, balance: balance, name: name }
+        orderResult.push(result);
     }
     if (!contractsByUser) {
         res.status(404).render('error')
@@ -54,9 +61,46 @@ const getContractBySeller = catchAsync(async (req, res, next) => {
     for (ele of contractsBySeller) {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
+        let time = ele['createdAt'];
+        time = (new Date(time)).toString();
+        time = time.slice(0, 24);
+        let name = time.replaceAll(' ', '-');
+        name = name.replaceAll(':', '-');
         let contract = await new web3.eth.Contract(abi, address);
+        let balance = await contract.methods.getBalance().call();
         let orderInfo = await contract.methods.getOrder().call();
-        orderResult.push(orderInfo);
+        result = { info: orderInfo, balance: balance, name: name }
+        orderResult.push(result);
+    }
+    if (!contractsBySeller) {
+        res.status(404).render('error')
+    }
+    res.render('sold-order', {
+        orderResult, me, medicals, supplies
+    });
+})
+
+const getNewContractBySeller = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName();
+    const me = await UserService.getMe(req.params.id);
+    let orderResult = []
+    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id);
+    for (ele of contractsBySeller) {
+        let abi = ele['abi'];
+        let address = ele['contractAddress'];
+        let time = ele['createdAt'];
+        time = (new Date(time)).toString();
+        time = time.slice(0, 24);
+        let name = time.replaceAll(' ', '-');
+        name = name.replaceAll(':', '-');
+        let contract = await new web3.eth.Contract(abi, address);
+        let balance = await contract.methods.getBalance().call();
+        let orderInfo = await contract.methods.getOrder().call();
+        if (orderInfo['status'] == 0) {
+            result = { info: orderInfo, balance: balance, name: name }
+            orderResult.push(result);
+        }
+
     }
     if (!contractsBySeller) {
         res.status(404).render('error')
@@ -72,14 +116,16 @@ const getContractDetail = catchAsync(async (req, res, next) => {
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
     let address = contractDetail['contractAddress'];
+    let time = (new Date(contractDetail['createdAt'])).toString().slice(0, 24);
     let contract = await new web3.eth.Contract(abi, address);
+    let balance = await contract.methods.getBalance().call();
     let orderInfo = await contract.methods.getOrder().call();
     if (!orderInfo) {
         res.status(404).render('error')
     }
     let seller = await UserService.getSeller(orderInfo.seller);
     res.render('order-detail', {
-        orderInfo, me, seller, medicals, supplies, address
+        orderInfo, me, seller, medicals, supplies, address, time
     });
 })
 
@@ -89,6 +135,7 @@ const getSoldContractDetail = catchAsync(async (req, res, next) => {
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
     let address = contractDetail['contractAddress'];
+    let time = (new Date(contractDetail['createdAt'])).toString().slice(0, 24);
     let contract = await new web3.eth.Contract(abi, address);
     let orderInfo = await contract.methods.getOrder().call();
     if (!orderInfo) {
@@ -96,13 +143,11 @@ const getSoldContractDetail = catchAsync(async (req, res, next) => {
     }
     let buyer = await UserService.getBuyer(orderInfo.buyer);
     res.render('sold-order-detail', {
-        orderInfo, me, buyer, medicals, supplies, address
+        orderInfo, me, buyer, medicals, supplies, address, time
     });
 })
 
 const confirmGivenMerchaindise = catchAsync(async (req, res, next) => {
-    const { medicals, supplies } = await getCategoryName();
-    const me = await UserService.getMe(req.user.id);
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
     let address = contractDetail['contractAddress'];
@@ -115,36 +160,30 @@ const confirmGivenMerchaindise = catchAsync(async (req, res, next) => {
 })
 
 const confirmCompleted = catchAsync(async (req, res, next) => {
-    const { medicals, supplies } = await getCategoryName();
-    const me = await UserService.getMe(req.user.id);
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
     let address = contractDetail['contractAddress'];
     let contract = await new web3.eth.Contract(abi, address);
     let orderInfo = await contract.methods.getOrder().call();
-    await contract.methods.changeStatus('4').send({ from: orderInfo['buyer'] });
+    await contract.methods.changeStatus('4').send({ from: orderInfo['seller'] });
     res.status(200).json({
         success: true
     });
 })
 
 const confirmBySeller = catchAsync(async (req, res, next) => {
-    const { medicals, supplies } = await getCategoryName();
-    const me = await UserService.getMe(req.user.id);
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
     let address = contractDetail['contractAddress'];
     let contract = await new web3.eth.Contract(abi, address);
     let orderInfo = await contract.methods.getOrder().call();
-    await contract.methods.changeStatus('1').send({ from: orderInfo['buyer'] });
+    await contract.methods.changeStatus('1').send({ from: orderInfo['seller'] });
     res.status(200).json({
         success: true
     });
 })
 
 const cancelByBuyer = catchAsync(async (req, res, next) => {
-    const { medicals, supplies } = await getCategoryName();
-    const me = await UserService.getMe(req.user.id);
     let merchaindise = await Merchaindise.findById(req.params.id);
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
@@ -161,8 +200,6 @@ const cancelByBuyer = catchAsync(async (req, res, next) => {
 })
 
 const cancelBySeller = catchAsync(async (req, res, next) => {
-    const { medicals, supplies } = await getCategoryName();
-    const me = await UserService.getMe(req.user.id);
     let merchaindise = await Merchaindise.findById(req.params.id);
     const contractDetail = (await UserContractService.getContractDetail(req.params.address))[0];
     let abi = contractDetail['abi'];
@@ -189,5 +226,6 @@ module.exports = {
     confirmCompleted,
     confirmBySeller,
     cancelByBuyer,
-    cancelBySeller
+    cancelBySeller,
+    getNewContractBySeller
 }

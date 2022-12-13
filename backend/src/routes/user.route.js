@@ -23,6 +23,7 @@ router.route("/:id/thong-bao").get(AuthController.protect, UserController.noti);
 router.route("/:id/tat-ca-bai-dang").get(AuthController.protect, UserController.getMerchaindiseByOwner);
 router.route("/:id/don-mua").get(AuthController.protect, UserContractController.getContractByUser);
 router.route("/:id/don-ban").get(AuthController.protect, UserContractController.getContractBySeller);
+router.route("/:id/don-ban-moi").get(AuthController.protect, UserContractController.getNewContractBySeller);
 router.route("/san-pham/:id").get(AuthController.protect, UserController.getDetailMerchaindise);
 router.route('/lock/:id').patch(AuthController.protect, UserController.lockUser)
 router.route('/unlock/:id').patch(AuthController.protect, UserController.unlockUser)

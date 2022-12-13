@@ -106,10 +106,11 @@ const manageMerchaindise = catchAsync(async (req, res, next) => {
 })
 
 const getMerchaindiseById = catchAsync(async (req, res, next) => {
-    const merchaindise = await MerchaindiseService.getDetail(req.params.id);
-    if (!merchaindise) {
+    let merchaindise = await MerchaindiseService.getDetail(req.params.id);
+    if (merchaindise.length == 0) {
         res.status(404).render('error');
     } else {
+        merchaindise = merchaindise[0]
         res.render('merchaindise-detail', { merchaindise });
     }
 })

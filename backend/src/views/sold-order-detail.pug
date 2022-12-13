@@ -20,6 +20,9 @@ block content
                         label.form__label(for='password') Thông tin người mua
                         input.form__input( value=`Email: ${buyer.email} / SĐT: ${buyer.phoneNumber} `, readonly)
                     .form__group.ma-bt-md
+                        label.form__label(for='password') Ngày đặt mua
+                        input.form__input( value=`${time}`, readonly)
+                    .form__group.ma-bt-md
                         label.form__label(for='password') Trạng thái đơn hàng
                         if orderInfo.status == '0'
                             input.form__input( value='New', required, id="status", readonly)
@@ -133,14 +136,16 @@ block content
         }
 
         async function confirm(){
+            let userId = document.getElementById('seller-id').value;
             let orderAddress = document.getElementById('address').value;
             let response = await fetch(`http://localhost:4000/user-contract/xac-nhan-boi-nguoi-ban/${orderAddress}`, {method: "POST"});
             if(response.status == 200){
                 window.alert('Bạn đã xác nhận đơn hàng!');
-                history.back()
+                window.location.href=`http://localhost:4000/user-contract/don-ban/${orderAddress}`;
             }
         }
 
         function back(){
-            history.back()
+            let userId = document.getElementById('seller-id').value;
+             window.location.href=`http://localhost:4000/user/${userId}/don-ban`;
         }

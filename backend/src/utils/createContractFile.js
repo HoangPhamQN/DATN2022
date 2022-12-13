@@ -40,8 +40,9 @@ contract Contract_${totalContract} {
     uint256 public dueDate = block.timestamp + 2 weeks;
     order_status public status = order_status.NEW;
 
-
+    event Deposit(address indexed _from, uint _value);
     function deposit() external payable {
+        emit Deposit(msg.sender, msg.value);
     }
 
     function withdraw(address payable _to, uint _amount) external {
