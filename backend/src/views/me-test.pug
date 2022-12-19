@@ -30,12 +30,12 @@ block content
                 
         .me__button
             .my__posts
-                a(href=`http://localhost:4000/user/${me.id}/don-mua`)
+                a(href=`http://localhost:4000/user/${me.id}/don-mua?page=1&limit=10`)
                     button.btn.btn-secondary Đơn mua
                 if me.role == "6350b3325bc8d1ddf91786cc"
-                    a(href=`http://localhost:4000/user/${me.id}/don-ban`)
+                    a(href=`http://localhost:4000/user/${me.id}/don-ban?page=1&limit=10`)
                         button.btn.btn-secondary Đơn bán
-                    a(href=`http://localhost:4000/user/${me.id}/don-ban-moi`)
+                    a(href=`http://localhost:4000/user/${me.id}/don-ban-moi?page=1&limit=10`)
                         button.btn.btn-secondary Đơn hàng mới
                 if me.role == "6350b3325bc8d1ddf91786cc"
                     a(href=`http://localhost:4000/user/${me.id}/tat-ca-bai-dang?page=1&limit=3`)

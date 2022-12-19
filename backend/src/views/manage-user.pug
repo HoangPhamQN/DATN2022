@@ -17,7 +17,7 @@ html
             nav.nav.nav--tours
                 a.nav__el(href='http://localhost:4000/user/admin/quan-ly-nguoi-dung?page=1&limit=10') Người dùng
                 a.nav__el(href='http://localhost:4000/user/admin/quan-ly-san-pham?page=1&limit=3') Sản phẩm
-                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-danh-muc?page=1$limit=10') Danh mục
+                a.nav__el(href='http://localhost:4000/user/admin/quan-ly-danh-muc?page=1&limit=10') Danh mục
                 
             .header__logo
                 img(src='/imgs/logo-white.png' alt='Natours logo')
@@ -35,24 +35,29 @@ html
         block content 
             .main__me
                 .me__data
-                    h1 DANH SÁCH NGƯỜI DÙNG
-                    each user, index in listUser 
-                        .don-mua
-                            .don__mua_span #{index +1}
-                            a.don__mua__link(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) #{user.name}
-                            if user.isBlocked && !user.isDeleted
-                                .don__mua__status Locked  
-                            else if user.isDeleted 
-                                .don__mua__status Deleted
-                            else 
-                                .don__mua__status Active
-                            a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) Chi tiết
-                            
+                    if listUser.length == 0
+                        h1(style="margin:auto") DANH SÁCH TRỐNG!
+                        button.btn.btn-secondary(onclick='back()') Quay lại
+                    else
+                        h1 DANH SÁCH NGƯỜI DÙNG
+                        each user, index in listUser 
+                            .don-mua
+                                .don__mua_span #{index +1}
+                                a.don__mua__link(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) #{user.name}
+                                if user.isBlocked && !user.isDeleted
+                                    .don__mua__status Locked  
+                                else if user.isDeleted 
+                                    .don__mua__status Deleted
+                                else 
+                                    .don__mua__status Active
+                                a.don__mua__status(href=`http://localhost:4000/user/admin/chi-tiet-nguoi-dung/${user._id}`) Chi tiết
+                        input#page(value=`${page}`, type='hidden')
+                        input#limit(value=`${limit}`, type='hidden')     
                                 //- .don__mua__status Cấp quyền seller
             nav(aria-label='Page navigation example').paginate
                     ul.pagination.justify-content-center
-                        li.page-item.disabled
-                            a.page-link Previous
+                        li.page-item
+                            button.page-link(onclick="pre()") Previous
                         li.page-item
                             a.page-link(href='?page=1&limit=10') 1
                         li.page-item
@@ -60,8 +65,25 @@ html
                         li.page-item
                             a.page-link(href='?page=3&limit=10') 3
                         li.page-item
-                            a.page-link(href='#') Next
-            
+                            button.page-link(onclick="next()") Next
+            script.
+                function back(){
+                    history.back()
+                }
+
+                function next(){
+                    let page = parseInt(document.getElementById('page').value) + 1;
+                    let limit = document.getElementById('limit').value;
+                    window.location.href = `?page=${page}&limit=${limit}`
+                    }
+
+                function pre(){
+                if(document.getElementById('page').value != 1){
+                    let page = parseInt(document.getElementById('page').value) - 1;
+                    let limit = document.getElementById('limit').value;
+                    window.location.href = `?page=${page}&limit=${limit}`
+                }
+                }
            
         // footer
         include _footer

@@ -18,7 +18,7 @@ const getBuyer = async (address) => {
 
 const listUser = async (queryString) => {
     // return (await User.find({ role: { $ne: "6350b3325bc8d1ddf91786cd" } }));
-    queryObj = { ...queryString }
+    let queryObj = { ...queryString }
     const page = queryObj.page * 1 || 1;
     const limit = queryObj.limit * 1 || 100;
     const skip = (page - 1) * limit;

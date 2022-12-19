@@ -29,8 +29,10 @@ const deleteUserContractByAddress = catchAsync(async (req, res, next) => {
 const getContractByUser = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName();
     const me = await UserService.getMe(req.params.id);
+    let page = req.query.page;
+    let limit = req.query.limit;
     let orderResult = []
-    const contractsByUser = await UserContractService.getContractByUser(req.params.id);
+    const contractsByUser = await UserContractService.getContractByUser(req.params.id, req.query);
     for (ele of contractsByUser) {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
@@ -45,19 +47,21 @@ const getContractByUser = catchAsync(async (req, res, next) => {
         result = { info: orderInfo, balance: balance, name: name }
         orderResult.push(result);
     }
-    if (!contractsByUser) {
-        res.status(404).render('error')
+    if (!orderResult || orderResult.length == 0) {
+        res.render('empty-list-for-user', { medicals, supplies })
     }
     res.render('order', {
-        orderResult, me, medicals, supplies
+        orderResult, me, medicals, supplies, page, limit
     });
 })
 
 const getContractBySeller = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName();
     const me = await UserService.getMe(req.params.id);
+    let page = req.query.page;
+    let limit = req.query.limit;
     let orderResult = []
-    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id);
+    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id, req.query);
     for (ele of contractsBySeller) {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
@@ -72,19 +76,21 @@ const getContractBySeller = catchAsync(async (req, res, next) => {
         result = { info: orderInfo, balance: balance, name: name }
         orderResult.push(result);
     }
-    if (!contractsBySeller) {
-        res.status(404).render('error')
+    if (!orderResult || orderResult.length == 0) {
+        res.status(404).render('empty-list-for-user', { medicals, supplies })
     }
     res.render('sold-order', {
-        orderResult, me, medicals, supplies
+        orderResult, me, medicals, supplies, page, limit
     });
 })
 
 const getNewContractBySeller = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName();
     const me = await UserService.getMe(req.params.id);
+    let page = req.query.page;
+    let limit = req.query.limit;
     let orderResult = []
-    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id);
+    const contractsBySeller = await UserContractService.getContractBySeller(req.params.id, req.query);
     for (ele of contractsBySeller) {
         let abi = ele['abi'];
         let address = ele['contractAddress'];
@@ -102,11 +108,11 @@ const getNewContractBySeller = catchAsync(async (req, res, next) => {
         }
 
     }
-    if (!contractsBySeller) {
-        res.status(404).render('error')
+    if (!orderResult || orderResult.length == 0) {
+        res.render('empty-list-for-user', { medicals, supplies })
     }
     res.render('sold-order', {
-        orderResult, me, medicals, supplies
+        orderResult, me, medicals, supplies, page, limit
     });
 })
 

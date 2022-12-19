@@ -10,7 +10,7 @@ const getAllMerchaindise = catchAsync(async (req, res, next) => {
     const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
     if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('empty-list', { medicals, supplies })
+        res.status(404).render('empty-list-for-user', { medicals, supplies })
     }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
@@ -103,7 +103,7 @@ const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
     const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug, req.query)
     if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('empty-list', { medicals, supplies })
+        res.status(404).render('empty-list-for-user', { medicals, supplies })
     }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',

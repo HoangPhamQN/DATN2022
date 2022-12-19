@@ -61,8 +61,8 @@ const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
     const limit = req.query.limit;
     const me = await UserService.getMe(req.params.id)
     const merchaindises = await MerchaindiseService.getMerchaindiseByOwner(req.params.id, req.query);
-    if (!merchaindises) {
-        res.status(404).render('empty-list', { medicals, supplies });
+    if (!merchaindises || merchaindises.length == 0) {
+        res.render('empty-list-for-user', { medicals, supplies });
     }
     res.status(200).render('my-merchaindises', { merchaindises, me, medicals, supplies, page, limit })
 })
@@ -84,8 +84,14 @@ const getAdminpage = catchAsync(async (req, res, next) => {
 })
 
 const listUser = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const listUser = await UserService.listUser(req.query);
-    res.render('manage-user', { listUser })
+    if (!listUser || listUser.length === 0) {
+        res.render('empty-list', { medicals, supplies })
+    }
+    res.render('manage-user', { listUser, page, limit })
 })
 
 const getUserById = catchAsync(async (req, res, next) => {
@@ -103,8 +109,8 @@ const manageMerchaindise = catchAsync(async (req, res, next) => {
     const page = req.query.page;
     const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
-    if (!merchaindises) {
-        res.status(404).render('empty-list', { medicals, supplies });
+    if (!merchaindises || merchaindises.length == 0) {
+        res.render('empty-list', { medicals, supplies });
     } else {
         res.render('manage-merchaindises', { merchaindises, medicals, page, limit, supplies })
     }
@@ -121,11 +127,14 @@ const getMerchaindiseById = catchAsync(async (req, res, next) => {
 })
 
 const manageCategory = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const categories = await CategoryService.manageCategory(req.query);
-    if (!categories) {
-        res.status(404).render('error');
+    if (!categories || categories.length == 0) {
+        res.render('empty-list', { medicals, supplies });
     } else {
-        res.render('manage-category', { categories })
+        res.render('manage-category', { categories, page, limit })
     }
 })
 

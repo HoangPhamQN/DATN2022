@@ -1,0 +1,14 @@
+extend base
+
+block content 
+            main 
+                .login_require
+                    h1 Danh sách trống!
+                    .form__group
+                        button.btn.btn--green(type='button', onclick="back()") Quay lại
+                input#page(value=`${page}`, type='hidden')
+                input#limit(value=`${limit}`, type='hidden')   
+            script. 
+                function back(){
+                    history.back()
+                }

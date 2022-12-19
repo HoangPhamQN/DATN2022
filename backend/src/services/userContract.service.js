@@ -11,12 +11,20 @@ const deleteUserContractByAddress = async (address) => {
     return userContract;
 }
 
-const getContractByUser = async (userId) => {
-    return await UserContract.find({ userId: userId }).sort('-createdAt').limit(10);
+const getContractByUser = async (userId, queryString) => {
+    let queryObj = { ...queryString }
+    const page = queryObj.page * 1 || 1;
+    const limit = queryObj.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    return await UserContract.find({ userId: userId }).sort('-createdAt').skip(skip).limit(limit);
 }
 
-const getContractBySeller = async (sellerId) => {
-    return await UserContract.find({ sellerId: sellerId }).sort('-createdAt').limit(10);
+const getContractBySeller = async (sellerId, queryString) => {
+    let queryObj = { ...queryString }
+    const page = queryObj.page * 1 || 1;
+    const limit = queryObj.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    return await UserContract.find({ sellerId: sellerId }).sort('-createdAt').skip(skip).limit(limit);
 }
 
 const getContractDetail = async (address) => {
