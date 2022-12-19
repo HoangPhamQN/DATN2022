@@ -57,12 +57,14 @@ const noti = catchAsync(async (req, res, next) => {
 
 const getMerchaindiseByOwner = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const me = await UserService.getMe(req.params.id)
     const merchaindises = await MerchaindiseService.getMerchaindiseByOwner(req.params.id, req.query);
     if (!merchaindises) {
-        res.status(404).render('error');
+        res.status(404).render('empty-list', { medicals, supplies });
     }
-    res.status(200).render('my-merchaindises', { merchaindises, me, medicals, supplies })
+    res.status(200).render('my-merchaindises', { merchaindises, me, medicals, supplies, page, limit })
 })
 
 const getDetailMerchaindise = catchAsync(async (req, res, next) => {
@@ -97,11 +99,14 @@ const getUserById = catchAsync(async (req, res, next) => {
 })
 
 const manageMerchaindise = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
     if (!merchaindises) {
-        res.status(404).render('error');
+        res.status(404).render('empty-list', { medicals, supplies });
     } else {
-        res.render('manage-merchaindises', { merchaindises })
+        res.render('manage-merchaindises', { merchaindises, medicals, page, limit, supplies })
     }
 })
 

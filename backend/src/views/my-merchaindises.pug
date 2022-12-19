@@ -3,7 +3,7 @@ extends base
 block content
   main.main
     if merchaindises.length == 0
-      h1(style="margin:auto") BẠN CHƯA CÓ BÀI ĐĂNG NÀO!
+      h1(style="margin:auto") DANH SÁCH TRỐNG!
       button.btn.btn-secondary(onclick='back()') Quay lại
     else 
       .btn-back__manage__merchaindise
@@ -36,20 +36,36 @@ block content
 
             .card__footer
               a.btn.btn--green.btn--small(href=`http://localhost:4000/user/san-pham/${merchaindise.id}`) Chi tiết
+        input#page(value=`${page}`, type='hidden')
+        input#limit(value=`${limit}`, type='hidden')
   
   nav(aria-label='Page navigation example').paginate
     ul.pagination.justify-content-center
-        li.page-item.disabled
-            a.page-link Previous
         li.page-item
-            a.page-link(href='?page=1&limit=6') 1
+            button.page-link(onclick="pre()") Previous
         li.page-item
-            a.page-link(href='?page=2&limit=6') 2
+            a.page-link(href='?page=1&limit=3') 1
         li.page-item
-            a.page-link(href='?page=3&limit=6') 3
+            a.page-link(href='?page=2&limit=3') 2
         li.page-item
-            a.page-link(href='#') Next    
+            a.page-link(href='?page=3&limit=3') 3
+        li.page-item
+            button.page-link(onclick="next()") Next   
   script.
     function back(){
       history.back()
+    }
+
+    function next(){
+      let page = parseInt(document.getElementById('page').value) + 1;
+      let limit = document.getElementById('limit').value;
+      window.location.href = `?page=${page}&limit=${limit}`
+    }
+
+    function pre(){
+      if(document.getElementById('page').value != 1){
+        let page = parseInt(document.getElementById('page').value) - 1;
+        let limit = document.getElementById('limit').value;
+        window.location.href = `?page=${page}&limit=${limit}`
+      }
     }

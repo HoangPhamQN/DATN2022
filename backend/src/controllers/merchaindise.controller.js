@@ -6,15 +6,19 @@ const { getCategoryName } = require('../utils/category')
 
 const getAllMerchaindise = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getAllMerchaindise(req.query);
     if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('error')
+        res.status(404).render('empty-list', { medicals, supplies })
     }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
         merchaindises,
         medicals,
-        supplies
+        supplies,
+        page,
+        limit
     });
 });
 
@@ -78,9 +82,10 @@ const updateMerchaindise = catchAsync(async (req, res, next) => {
 })
 
 const getMedicalSupplies = catchAsync(async (req, res, next) => {
+    const { medicals, supplies } = await getCategoryName()
     const merchaindises = await MerchaindiseService.getMedicalSupplies();
     if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('error')
+        res.status(404).render('empty-list', { medicals, supplies })
     }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
@@ -94,15 +99,19 @@ const temp = catchAsync(async (req, res, next) => {
 
 const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
+    const page = req.query.page;
+    const limit = req.query.limit;
     const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug, req.query)
     if (!merchaindises || merchaindises.length === 0) {
-        res.status(404).render('error', { medicals, supplies })
+        res.status(404).render('empty-list', { medicals, supplies })
     }
     res.status(200).render('overview', {
         title: 'Danh sách mặt hàng',
         merchaindises,
         medicals,
-        supplies
+        supplies,
+        page,
+        limit
     });
 })
 
