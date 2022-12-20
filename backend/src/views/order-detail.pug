@@ -67,10 +67,10 @@ block content
                 await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: buyerAddress, gas: 1500000});
 
                 let userId = document.getElementById('buyer-id').value;
-                let response = await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
+                //- let response = await fetch(`http://localhost:4000/user-contract/${orderAddress}`, {method: "DELETE"});
 
                 let response1 = await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-mua/${orderAddress}/${id}`, {method: "POST"});
-                if(response.status == 200 && response1.status == 200){
+                if(response1.status == 200){
                     window.alert('Bạn đã hủy đơn hàng thành công!');
                     window.location.href=`http://localhost:4000/user/${userId}/don-mua`;
                 } else {

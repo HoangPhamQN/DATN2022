@@ -43,7 +43,7 @@ block content
                 })
                 .catch(async e => {
                     if (e.code === 4001){
-                        await fetch(`http://localhost:4000/user-contract/${Address}`, {method: "DELETE"});
+                        //- await fetch(`http://localhost:4000/user-contract/${Address}`, {method: "DELETE"});
                         window.alert('Hủy giao dịch thành công!');
                         window.location.href='http://localhost:4000/hang-hoa/tat-ca-mat-hang';
                     } 
@@ -56,9 +56,9 @@ block content
         async function cancel(){
             let Address = document.getElementById("address").value;
             let id = document.getElementById('merchaindise-id').value;
-            let response = await fetch(`http://localhost:4000/user-contract/${Address}`, {method: "DELETE"});
+            //- let response = await fetch(`http://localhost:4000/user-contract/${Address}`, {method: "DELETE"});
             let response1 = await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-mua/${Address}/${id}`, {method: "POST"});
-            if(response.status ==200 && response1.status ==200){
+            if(response1.status ==200){
                 window.alert('Hủy giao dịch thành công!');
                 window.location.href='http://localhost:4000/hang-hoa/tat-ca-mat-hang';
             } else {

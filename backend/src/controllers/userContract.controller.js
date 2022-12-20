@@ -44,6 +44,14 @@ const getContractByUser = catchAsync(async (req, res, next) => {
         let contract = await new web3.eth.Contract(abi, address);
         let balance = await contract.methods.getBalance().call();
         let orderInfo = await contract.methods.getOrder().call();
+        let merchaindiseId = orderInfo['id'];
+        if (balance == 0 && orderInfo['status'] == 0) {
+            await contract.methods.changeStatus('3').send({ from: orderInfo['buyer'] });
+            let merchaindise = await Merchaindise.findById(merchaindiseId);
+            merchaindise.quantity += parseInt(orderInfo['quantity']);
+            merchaindise.soldQuantity -= parseInt(orderInfo['quantity']);
+            merchaindise.save()
+        }
         result = { info: orderInfo, balance: balance, name: name }
         orderResult.push(result);
     }
@@ -73,6 +81,14 @@ const getContractBySeller = catchAsync(async (req, res, next) => {
         let contract = await new web3.eth.Contract(abi, address);
         let balance = await contract.methods.getBalance().call();
         let orderInfo = await contract.methods.getOrder().call();
+        let merchaindiseId = orderInfo['id'];
+        if (balance == 0 && orderInfo['status'] == 0) {
+            await contract.methods.changeStatus('3').send({ from: orderInfo['buyer'] });
+            let merchaindise = await Merchaindise.findById(merchaindiseId);
+            merchaindise.quantity += parseInt(orderInfo['quantity']);
+            merchaindise.soldQuantity -= parseInt(orderInfo['quantity']);
+            merchaindise.save()
+        }
         result = { info: orderInfo, balance: balance, name: name }
         orderResult.push(result);
     }
@@ -102,6 +118,15 @@ const getNewContractBySeller = catchAsync(async (req, res, next) => {
         let contract = await new web3.eth.Contract(abi, address);
         let balance = await contract.methods.getBalance().call();
         let orderInfo = await contract.methods.getOrder().call();
+        let merchaindiseId = orderInfo['id'];
+        if (balance == 0 && orderInfo['status'] == 0) {
+            await contract.methods.changeStatus('3').send({ from: orderInfo['buyer'] });
+            let merchaindise = await Merchaindise.findById(merchaindiseId);
+            merchaindise.quantity += parseInt(orderInfo['quantity']);
+            merchaindise.soldQuantity -= parseInt(orderInfo['quantity']);
+            merchaindise.save()
+        }
+        orderInfo = await contract.methods.getOrder().call();
         if (orderInfo['status'] == 0) {
             result = { info: orderInfo, balance: balance, name: name }
             orderResult.push(result);
