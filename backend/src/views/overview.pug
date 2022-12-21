@@ -2,8 +2,14 @@ extends base
 
 block content
   main.main
+    .btn-back__manage__merchaindise
+      if(cate)
+        h1 #{cate.name.toUpperCase()} - TRANG #{page}
+        button.btn.btn-secondary(onclick='back()') Quay lại
+      else 
+        h1 DANH SÁCH SẢN PHẨM - TRANG #{page}
+        button.btn.btn-secondary(onclick='back()') Quay lại
     .card-container
-    
       each merchaindise in merchaindises
         .card
           .card__header
@@ -58,4 +64,8 @@ block content
         let limit = document.getElementById('limit').value;
         window.location.href = `?page=${page}&limit=${limit}`
       }
+    }
+
+    function back(){
+      history.back()
     }

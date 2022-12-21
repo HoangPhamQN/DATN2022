@@ -101,7 +101,7 @@ const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
     const { medicals, supplies } = await getCategoryName()
     const page = req.query.page;
     const limit = req.query.limit;
-    const merchaindises = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug, req.query)
+    const { merchaindises, cate } = await MerchaindiseService.getMerchaindiseByCategory(req.params.slug, req.query)
     if (!merchaindises || merchaindises.length === 0) {
         res.status(404).render('empty-list-for-user', { medicals, supplies })
     }
@@ -111,7 +111,7 @@ const getMerchaindiseByCategory = catchAsync(async (req, res, next) => {
         medicals,
         supplies,
         page,
-        limit
+        limit, cate
     });
 })
 

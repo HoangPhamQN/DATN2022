@@ -39,7 +39,7 @@ block content
             window.contract.methods.deposit().send({from: account, value: totalETH})
                 .then(tx => {
                     window.alert('Giao dịch thành công, hãy xác nhận khi nhận được hàng');
-                    window.location.href=`http://localhost:4000/user/${userId}/`;
+                    window.location.href=`http://localhost:4000/user/${userId}`;
                 })
                 .catch(async e => {
                     if (e.code === 4001){

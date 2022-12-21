@@ -141,7 +141,7 @@ block content
             let response = await fetch(`http://localhost:4000/user-contract/xac-nhan-boi-nguoi-ban/${orderAddress}`, {method: "POST"});
             if(response.status == 200){
                 window.alert('Bạn đã xác nhận đơn hàng!');
-                window.location.href=`http://localhost:4000/user-contract/don-ban/${orderAddress}`;
+                window.location.href=`http://localhost:4000/user/${userId}/don-ban?page=1&limit=10`;
             }
         }
 

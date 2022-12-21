@@ -91,8 +91,10 @@ const getMerchaindiseByCategory = async (slug, queryString) => {
     const limit = queryObj.limit * 1 || 100;
     const skip = (page - 1) * limit;
     const cateId = (await Category.findOne({ slug: slug })).id
-    const result = await Merchaindise.find({ category: cateId }).sort('-createdAt').skip(skip).limit(limit)
-    return result
+
+    const cate = await Category.findById(cateId);
+    const merchaindises = await Merchaindise.find({ category: cateId, isDeleted: false }).sort('-createdAt').skip(skip).limit(limit)
+    return { merchaindises, cate }
 }
 
 const getMerchaindiseByOwner = async (id, queryString) => {

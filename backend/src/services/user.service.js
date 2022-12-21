@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Merchaindise } = require('../models')
 const Web3 = require("web3");
 
 // Setting up a HttpProvider
@@ -31,10 +31,24 @@ const getUserById = async (id) => {
 }
 
 const lockUser = async (id) => {
+    let merchaindises = await Merchaindise.find({ owner: id });
+    if (merchaindises.length != 0) {
+        merchaindises.forEach(item => {
+            item.isDeleted = true;
+            item.save();
+        })
+    }
     return await User.findByIdAndUpdate(id, { isBlocked: true }, { new: true })
 }
 
 const unlockUser = async (id) => {
+    let merchaindises = await Merchaindise.find({ owner: id });
+    if (merchaindises.length != 0) {
+        merchaindises.forEach(item => {
+            item.isDeleted = false;
+            item.save();
+        })
+    }
     return await User.findByIdAndUpdate(id, { isBlocked: false }, { new: true })
 }
 
@@ -47,10 +61,22 @@ const recoverUser = async (id) => {
 }
 
 const addRoleSeller = async (id) => {
+    let merchaindises = await Merchaindise.find({ owner: id });
+    if (merchaindises.length != 0) {
+        merchaindises.forEach(item => {
+            item.isDeleted = false;
+            item.save();
+        })
+    }
     return await User.findByIdAndUpdate(id, { role: "6350b3325bc8d1ddf91786cc" }, { new: true })
 }
 
 const removeRoleSeller = async (id) => {
+    let merchaindises = await Merchaindise.find({ owner: id });
+    merchaindises.forEach(item => {
+        item.isDeleted = true;
+        item.save();
+    })
     return await User.findByIdAndUpdate(id, { role: "6350b3325bc8d1ddf91786cb" }, { new: true })
 }
 
