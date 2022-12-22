@@ -208,7 +208,7 @@ const confirmBySeller = catchAsync(async (req, res, next) => {
     let address = contractDetail['contractAddress'];
     let contract = await new web3.eth.Contract(abi, address);
     let orderInfo = await contract.methods.getOrder().call();
-    await contract.methods.changeStatus('1').send({ from: orderInfo['seller'] });
+    await contract.methods.changeStatus('1').send({ from: "orderInfo['seller']" });
     res.status(200).json({
         success: true
     });

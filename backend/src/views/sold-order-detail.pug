@@ -73,7 +73,11 @@ block content
             console.log(await window.contract.methods.getBalance().call())
             let orderInfo = await window.contract.methods.getOrder().call();
             let totalETH = window.web3.utils.toWei(orderInfo['totalInvoice'], 'ether');
-            await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-ban/${orderAddress}/${id}`, {method: "POST"});
+            let response = await fetch(`http://localhost:4000/user-contract/huy-don-boi-nguoi-ban/${orderAddress}/${id}`, {method: "POST"});
+            if(!response.ok){
+                window.alert("Bạn không có quyền hủy đơn hàng này!");
+                window.location.href=`http://localhost:4000/user/${userId}/don-ban?page=1&limit=10`;
+            }
             //- await window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000});
             window.contract.methods.withdraw(buyerAddress, totalETH).send({from: sellerAddress, gas: 1500000})
                 .then(async tx => {
@@ -85,7 +89,7 @@ block content
                     if (e.code === 4001){
                         window.alert('Hủy đơn hàng chưa thành công!');
                         window.location.href=`http://localhost:4000/user/${userId}/`;
-                    } 
+                    }
                 });
 
            
@@ -141,6 +145,9 @@ block content
             let response = await fetch(`http://localhost:4000/user-contract/xac-nhan-boi-nguoi-ban/${orderAddress}`, {method: "POST"});
             if(response.status == 200){
                 window.alert('Bạn đã xác nhận đơn hàng!');
+                window.location.href=`http://localhost:4000/user/${userId}/don-ban?page=1&limit=10`;
+            } else {
+                window.alert('Chỉ có người bán hoặc người mua mới có quyền thay đổi trạng thái đơn hàng!');
                 window.location.href=`http://localhost:4000/user/${userId}/don-ban?page=1&limit=10`;
             }
         }

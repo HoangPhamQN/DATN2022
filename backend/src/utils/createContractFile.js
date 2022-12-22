@@ -42,10 +42,12 @@ contract Contract_${totalContract} {
 
     event Deposit(address indexed _from, uint _value);
     function deposit() external payable {
+        require(msg.sender == buyerAddress, "Only buyer can deposit this contract");
         emit Deposit(msg.sender, msg.value);
     }
 
     function withdraw(address payable _to, uint _amount) external {
+        require(msg.sender == buyerAddress || msg.sender == sellerAddress, "Only buyer or seller can withdraw this contract");
         _to.transfer(_amount);
     }
 
@@ -73,6 +75,7 @@ contract Contract_${totalContract} {
     }
 
     function changeStatus(order_status _status) public {
+        require(msg.sender == buyerAddress || msg.sender == sellerAddress, "Only buyer or seller can change status of this contract");
         status = _status;
     }
 }
